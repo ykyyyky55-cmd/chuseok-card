@@ -2,9 +2,9 @@
  * 풍성한 한가위 - 움직이는 추석 인사 카드 (script.js)
  * - Canvas 파티클 (별빛, 단풍잎, 은행잎, 소원 풍등, 클릭 스파클)
  * - Web Audio API 기반 한국 전통 펜타토닉 가야금/오르골 사운드 신스
- * - 인사말 프리셋 및 실시간 커스텀 편집
+ * - 한옥 대문 인트로 & 보름달 떠오름 연출
  * - 보름달 소원 빌기 모달 및 인터랙션
- * - 고해상도 카드 이미지 (PNG) 저장 기능
+ * - 고해상도 카드 이미지 (PNG) 저장 & 카톡 복사 기능
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -65,8 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let width, height;
   function resizeCanvas() {
     const rect = cardElement.getBoundingClientRect();
-    width = canvas.width = rect.width;
-    height = canvas.height = rect.height;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2); // 고해상도(레티나) 화면에서 선명하게
+    width = rect.width;
+    height = rect.height;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   window.addEventListener('resize', resizeCanvas);
   resizeCanvas();
@@ -150,6 +154,42 @@ document.addEventListener('DOMContentLoaded', () => {
         alpha: 1,
         color: Math.random() > 0.3 ? '#fef08a' : '#fb923c'
       });
+    }
+  }
+
+  // 낙엽 모양 그리기 (화면 캔버스 & 저장 이미지 공용)
+  function drawLeafShape(c, type, size) {
+    if (type === 'ginkgo') {
+      // 은행잎 (부채꼴)
+      c.beginPath();
+      c.moveTo(0, size * 0.4);
+      c.lineTo(-size * 0.5, -size * 0.3);
+      c.quadraticCurveTo(0, -size * 0.6, size * 0.5, -size * 0.3);
+      c.closePath();
+      c.fill();
+      // 잎자루
+      c.beginPath();
+      c.moveTo(0, size * 0.4);
+      c.lineTo(0, size * 0.7);
+      c.strokeStyle = '#a16207';
+      c.lineWidth = Math.max(1, size / 18);
+      c.stroke();
+    } else {
+      // 단풍잎 (별 모양 잎)
+      c.beginPath();
+      const s = size * 0.5;
+      c.moveTo(0, -s);
+      c.lineTo(s * 0.3, -s * 0.2);
+      c.lineTo(s, -s * 0.3);
+      c.lineTo(s * 0.4, s * 0.2);
+      c.lineTo(s * 0.7, s * 0.8);
+      c.lineTo(0, s * 0.4);
+      c.lineTo(-s * 0.7, s * 0.8);
+      c.lineTo(-s * 0.4, s * 0.2);
+      c.lineTo(-s, -s * 0.3);
+      c.lineTo(-s * 0.3, -s * 0.2);
+      c.closePath();
+      c.fill();
     }
   }
 
@@ -242,40 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.rotate(leaf.angle);
       ctx.globalAlpha = leaf.opacity;
       ctx.fillStyle = leaf.color;
-
-      if (leaf.type === 'ginkgo') {
-        // 은행잎 (부채꼴)
-        ctx.beginPath();
-        ctx.moveTo(0, leaf.size * 0.4);
-        ctx.lineTo(-leaf.size * 0.5, -leaf.size * 0.3);
-        ctx.quadraticCurveTo(0, -leaf.size * 0.6, leaf.size * 0.5, -leaf.size * 0.3);
-        ctx.closePath();
-        ctx.fill();
-        // 잎자루
-        ctx.beginPath();
-        ctx.moveTo(0, leaf.size * 0.4);
-        ctx.lineTo(0, leaf.size * 0.7);
-        ctx.strokeStyle = '#a16207';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      } else {
-        // 단풍잎 (별 모양 잎)
-        ctx.beginPath();
-        const s = leaf.size * 0.5;
-        ctx.moveTo(0, -s);
-        ctx.lineTo(s * 0.3, -s * 0.2);
-        ctx.lineTo(s, -s * 0.3);
-        ctx.lineTo(s * 0.4, s * 0.2);
-        ctx.lineTo(s * 0.7, s * 0.8);
-        ctx.lineTo(0, s * 0.4);
-        ctx.lineTo(-s * 0.7, s * 0.8);
-        ctx.lineTo(-s * 0.4, s * 0.2);
-        ctx.lineTo(-s, -s * 0.3);
-        ctx.lineTo(-s * 0.3, -s * 0.2);
-        ctx.closePath();
-        ctx.fill();
-      }
-
+      drawLeafShape(ctx, leaf.type, leaf.size);
       ctx.restore();
 
       // 화면 아래로 떨어지면 위에서 다시 생성
@@ -357,9 +364,6 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast("🌕 소원 풍등이 보름달을 향해 떠오릅니다!");
   });
 
-  // ==========================================
-  // 5. Web Audio API 사운드 신시사이저 (한국 전통 펜타토닉 가야금/오르골)
-  // ==========================================
   // ==========================================
   // 5. Web Audio API 기반 정통 가야금 사운드 신시사이저 & 밝은 한가위 축제 가락
   // ==========================================
@@ -573,6 +577,12 @@ document.addEventListener('DOMContentLoaded', () => {
   btnCloseWish.addEventListener('click', () => modalWish.classList.remove('open'));
   btnCancelWish.addEventListener('click', () => modalWish.classList.remove('open'));
 
+  // Enter로 바로 띄우기, Esc로 닫기
+  inputWishText.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.isComposing) btnSendWish.click();
+    if (e.key === 'Escape') modalWish.classList.remove('open');
+  });
+
   btnSendWish.addEventListener('click', () => {
     const wish = inputWishText.value.trim() || "뭉치자 여러분 대박 기원!";
     addLantern(wish);
@@ -664,68 +674,107 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 화면에 그려진 SVG 일러스트를 그대로 이미지로 변환 (저장 이미지와 화면 일러스트를 동일하게 유지)
+  function loadSvgImage(svgEl, drawW, drawH) {
+    return new Promise((resolve, reject) => {
+      const clone = svgEl.cloneNode(true);
+      clone.setAttribute('width', drawW);
+      clone.setAttribute('height', drawH);
+      const blob = new Blob([new XMLSerializer().serializeToString(clone)], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+      img.onerror = (err) => { URL.revokeObjectURL(url); reject(err); };
+      img.src = url;
+    });
+  }
+
+  // 한 줄이 너무 길면 어절 단위로 줄바꿈
+  function wrapText(c, text, maxWidth) {
+    const words = text.split(' ');
+    const lines = [];
+    let current = '';
+    words.forEach(word => {
+      const test = current ? `${current} ${word}` : word;
+      if (current && c.measureText(test).width > maxWidth) {
+        lines.push(current);
+        current = word;
+      } else {
+        current = test;
+      }
+    });
+    if (current) lines.push(current);
+    return lines;
+  }
+
   // 1080 x 1480 고해상도 오프스크린 캔버스 드로잉
-  function renderCardToCanvas() {
-    const exportCanvas = document.createElement('canvas');
+  async function renderCardToCanvas() {
     const W = 1080;
     const H = 1480;
+    const S = W / 520; // 화면 카드(520px) 대비 배율
+
+    // 일러스트 크기/위치 (화면 카드 비율 기준)
+    const moonX = W / 2;
+    const moonY = 400;
+    const moonR = 200;
+    const k = (moonR * 2) / 175; // 화면 보름달(175px) 대비 배율
+    const rabbitW = 150 * k, rabbitH = 130 * k;
+    const branchW = 210 * S, branchH = branchW * 200 / 260;
+    const hanokH = 110 * S;
+    const maruH = W * 180 / 520;
+
+    const [, rabbitImg, branchImg, hanokImg, maruImg] = await Promise.all([
+      document.fonts ? document.fonts.ready : Promise.resolve(),
+      loadSvgImage(document.querySelector('.rabbit-svg'), rabbitW, rabbitH),
+      loadSvgImage(document.querySelector('.branch-svg'), branchW, branchH),
+      loadSvgImage(document.querySelector('.hanok-svg'), W, hanokH),
+      loadSvgImage(document.querySelector('.maru-svg'), W, maruH)
+    ]);
+
+    const exportCanvas = document.createElement('canvas');
     exportCanvas.width = W;
     exportCanvas.height = H;
     const eCtx = exportCanvas.getContext('2d');
 
     // [1] 깊은 밤하늘 그라데이션
-    const bgGrad = eCtx.createRadialGradient(W / 2, H * 0.35, 100, W / 2, H * 0.35, H * 0.9);
+    const bgGrad = eCtx.createRadialGradient(W / 2, moonY, 100, W / 2, moonY, H * 0.9);
     bgGrad.addColorStop(0, '#223759');
     bgGrad.addColorStop(0.5, '#121d33');
     bgGrad.addColorStop(1, '#080e1a');
     eCtx.fillStyle = bgGrad;
     eCtx.fillRect(0, 0, W, H);
 
-    // [2] 전통 창호 프레임 & 모서리 격자
-    eCtx.strokeStyle = 'rgba(253, 224, 71, 0.4)';
-    eCtx.lineWidth = 4;
-    eCtx.strokeRect(36, 36, W - 72, H - 72);
-
-    eCtx.setLineDash([8, 8]);
-    eCtx.strokeStyle = 'rgba(253, 224, 71, 0.25)';
-    eCtx.lineWidth = 2;
-    eCtx.strokeRect(48, 48, W - 96, H - 96);
-    eCtx.setLineDash([]);
-
-    // 모서리 포인트 금빛 선
-    eCtx.strokeStyle = '#facc15';
-    eCtx.lineWidth = 6;
-    const cornerSize = 40;
-    // 좌상단
-    eCtx.beginPath();
-    eCtx.moveTo(33, 33 + cornerSize); eCtx.lineTo(33, 33); eCtx.lineTo(33 + cornerSize, 33);
-    // 우상단
-    eCtx.moveTo(W - 33 - cornerSize, 33); eCtx.lineTo(W - 33, 33); eCtx.lineTo(W - 33, 33 + cornerSize);
-    // 좌하단
-    eCtx.moveTo(33, H - 33 - cornerSize); eCtx.lineTo(33, H - 33); eCtx.lineTo(33 + cornerSize, H - 33);
-    // 우하단
-    eCtx.moveTo(W - 33 - cornerSize, H - 33); eCtx.lineTo(W - 33, H - 33); eCtx.lineTo(W - 33, H - 33 - cornerSize);
-    eCtx.stroke();
-
-    // [3] 밤하늘 별빛 그리기
-    for (let i = 0; i < 90; i++) {
+    // [2] 밤하늘 별빛 (은은한 빛번짐 포함)
+    for (let i = 0; i < 110; i++) {
       const sx = 60 + Math.random() * (W - 120);
-      const sy = 60 + Math.random() * (H * 0.65);
-      const sr = Math.random() * 2.5 + 0.8;
+      const sy = 60 + Math.random() * (H * 0.7);
+      const sr = Math.random() * 2.2 + 0.8;
       eCtx.beginPath();
       eCtx.arc(sx, sy, sr, 0, Math.PI * 2);
       eCtx.fillStyle = Math.random() > 0.4 ? '#fef08a' : '#ffffff';
       eCtx.globalAlpha = Math.random() * 0.7 + 0.3;
+      eCtx.shadowColor = '#fef08a';
+      eCtx.shadowBlur = 8;
       eCtx.fill();
     }
     eCtx.globalAlpha = 1.0;
+    eCtx.shadowBlur = 0;
+
+    // [3] 은은한 구름
+    [[260, 330, 300, 90], [820, 250, 260, 80]].forEach(([cx, cy, rx, ry]) => {
+      const cloud = eCtx.createRadialGradient(cx, cy, 0, cx, cy, rx);
+      cloud.addColorStop(0, 'rgba(255, 255, 255, 0.07)');
+      cloud.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      eCtx.save();
+      eCtx.translate(cx, cy);
+      eCtx.scale(1, ry / rx);
+      eCtx.translate(-cx, -cy);
+      eCtx.fillStyle = cloud;
+      eCtx.fillRect(cx - rx, cy - rx, rx * 2, rx * 2);
+      eCtx.restore();
+    });
 
     // [4] 커다란 황금 보름달 & 달무리
-    const moonX = W / 2;
-    const moonY = H * 0.32;
-    const moonR = 190;
-
-    // 달빛 오라
     const auraGrad = eCtx.createRadialGradient(moonX, moonY, moonR * 0.8, moonX, moonY, moonR * 2.1);
     auraGrad.addColorStop(0, 'rgba(254, 240, 138, 0.45)');
     auraGrad.addColorStop(0.5, 'rgba(250, 204, 21, 0.15)');
@@ -733,380 +782,215 @@ document.addEventListener('DOMContentLoaded', () => {
     eCtx.fillStyle = auraGrad;
     eCtx.fillRect(moonX - moonR * 2.2, moonY - moonR * 2.2, moonR * 4.4, moonR * 4.4);
 
-    // 보름달 본체
-    const moonGrad = eCtx.createRadialGradient(moonX - 50, moonY - 50, 20, moonX, moonY, moonR);
+    const moonGrad = eCtx.createRadialGradient(moonX - moonR * 0.3, moonY - moonR * 0.3, 10, moonX, moonY, moonR);
     moonGrad.addColorStop(0, '#fffdf0');
     moonGrad.addColorStop(0.4, '#fef08a');
-    moonGrad.addColorStop(0.75, '#fde047');
+    moonGrad.addColorStop(0.7, '#fde047');
     moonGrad.addColorStop(1, '#eab308');
     eCtx.beginPath();
     eCtx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
     eCtx.fillStyle = moonGrad;
     eCtx.shadowColor = 'rgba(253, 224, 71, 0.8)';
-    eCtx.shadowBlur = 40;
+    eCtx.shadowBlur = 60;
     eCtx.fill();
     eCtx.shadowBlur = 0;
 
-    // 달 표면 음영
-    eCtx.fillStyle = 'rgba(217, 119, 6, 0.12)';
-    eCtx.beginPath();
-    eCtx.arc(moonX - 50, moonY - 60, 45, 0, Math.PI * 2);
-    eCtx.arc(moonX - 70, moonY + 70, 35, 0, Math.PI * 2);
-    eCtx.arc(moonX + 90, moonY - 10, 42, 0, Math.PI * 2);
-    eCtx.fill();
-
-    // [5] 달토끼와 절구 (실루엣 드로잉)
+    // 달 내부: 분화구 음영 + 떡방아 찧는 달토끼 (화면과 동일한 SVG)
     eCtx.save();
-    eCtx.translate(moonX - 10, moonY + 40);
-    const scale = 1.35;
-    eCtx.scale(scale, scale);
-
-    // 절구
-    eCtx.fillStyle = '#3a405a';
     eCtx.beginPath();
-    eCtx.ellipse(15, -15, 24, 7, 0, 0, Math.PI * 2);
-    eCtx.fill();
-    eCtx.fillRect(-5, -15, 40, 45);
-    eCtx.fillStyle = '#f1f5f9';
-    eCtx.beginPath();
-    eCtx.ellipse(15, -16, 16, 5, 0, 0, Math.PI * 2);
-    eCtx.fill();
+    eCtx.arc(moonX, moonY, moonR, 0, Math.PI * 2);
+    eCtx.clip();
 
-    // 토끼 몸체
-    eCtx.fillStyle = '#f1f5f9';
-    // 꼬리
-    eCtx.beginPath(); eCtx.arc(-70, 22, 9, 0, Math.PI * 2); eCtx.fill();
-    // 엉덩이/몸통
-    eCtx.beginPath(); eCtx.ellipse(-45, 12, 26, 20, 0, 0, Math.PI * 2); eCtx.fill();
-    // 가슴
-    eCtx.beginPath(); eCtx.ellipse(-28, -4, 18, 16, 0, 0, Math.PI * 2); eCtx.fill();
-    // 머리
-    eCtx.beginPath(); eCtx.arc(-20, -24, 16, 0, Math.PI * 2); eCtx.fill();
-    // 볼
-    eCtx.fillStyle = '#fda4af';
-    eCtx.beginPath(); eCtx.ellipse(-14, -18, 3.5, 2.5, 0, 0, Math.PI * 2); eCtx.fill();
-    // 눈
-    eCtx.fillStyle = '#1e293b';
-    eCtx.beginPath(); eCtx.arc(-13, -25, 2, 0, Math.PI * 2); eCtx.fill();
-    // 귀 2개
-    eCtx.fillStyle = '#f1f5f9';
-    eCtx.beginPath(); eCtx.ellipse(-26, -52, 6, 20, -0.2, 0, Math.PI * 2); eCtx.fill();
-    eCtx.beginPath(); eCtx.ellipse(-15, -52, 6, 20, 0.2, 0, Math.PI * 2); eCtx.fill();
-    eCtx.fillStyle = '#fbcfe8';
-    eCtx.beginPath(); eCtx.ellipse(-26, -52, 3, 14, -0.2, 0, Math.PI * 2); eCtx.fill();
-    eCtx.beginPath(); eCtx.ellipse(-15, -52, 3, 14, 0.2, 0, Math.PI * 2); eCtx.fill();
+    const moonLeft = moonX - moonR;
+    const moonTop = moonY - moonR;
+    eCtx.fillStyle = 'rgba(217, 119, 6, 0.09)';
+    [[20, 25, 45, 35], [30, 110, 30, 26], [122, 60, 38, 32]].forEach(([x, y, w, h]) => {
+      eCtx.beginPath();
+      eCtx.ellipse(moonLeft + (x + w / 2) * k, moonTop + (y + h / 2) * k, (w / 2) * k, (h / 2) * k, 0, 0, Math.PI * 2);
+      eCtx.fill();
+    });
 
-    // 방아공이
-    eCtx.strokeStyle = '#d97706';
-    eCtx.lineWidth = 5;
-    eCtx.beginPath();
-    eCtx.moveTo(2, -8); eCtx.lineTo(26, -58);
-    eCtx.stroke();
-    eCtx.fillStyle = '#b45309';
-    eCtx.beginPath();
-    eCtx.ellipse(28, -58, 8, 14, -0.4, 0, Math.PI * 2);
-    eCtx.fill();
+    // 달 가장자리 안쪽 음영 (입체감)
+    const rimGrad = eCtx.createRadialGradient(moonX - 30, moonY - 30, moonR * 0.7, moonX, moonY, moonR * 1.05);
+    rimGrad.addColorStop(0, 'rgba(202, 138, 4, 0)');
+    rimGrad.addColorStop(1, 'rgba(202, 138, 4, 0.35)');
+    eCtx.fillStyle = rimGrad;
+    eCtx.fillRect(moonLeft, moonTop, moonR * 2, moonR * 2);
 
+    eCtx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+    eCtx.shadowBlur = 8;
+    eCtx.shadowOffsetY = 4;
+    eCtx.drawImage(rabbitImg, moonX - rabbitW * 0.48, moonY + moonR - 8 * k - rabbitH, rabbitW, rabbitH);
     eCtx.restore();
 
-    // [6] 감나무 가지 (상단 우측)
+    // [5] 감나무 가지 (상단 우측, 화면과 동일한 SVG)
     eCtx.save();
-    eCtx.strokeStyle = '#4a3728';
-    eCtx.lineWidth = 9;
-    eCtx.lineCap = 'round';
-    eCtx.beginPath();
-    eCtx.moveTo(W - 40, 60);
-    eCtx.quadraticCurveTo(W - 220, 100, W - 350, 190);
-    eCtx.stroke();
-    // 가지 분기
-    eCtx.lineWidth = 5;
-    eCtx.beginPath();
-    eCtx.moveTo(W - 200, 115);
-    eCtx.quadraticCurveTo(W - 240, 180, W - 280, 210);
-    eCtx.stroke();
-
-    // 감 열매 2개
-    const drawPersimmon = (px, py) => {
-      eCtx.fillStyle = '#ea580c';
-      eCtx.beginPath();
-      eCtx.ellipse(px, py, 22, 19, 0, 0, Math.PI * 2);
-      eCtx.fill();
-      eCtx.fillStyle = '#3f5926';
-      eCtx.beginPath();
-      eCtx.ellipse(px, py - 18, 12, 4, 0, 0, Math.PI * 2);
-      eCtx.fill();
-    };
-    drawPersimmon(W - 280, 230);
-    drawPersimmon(W - 350, 210);
+    eCtx.shadowColor = 'rgba(0, 0, 0, 0.6)';
+    eCtx.shadowBlur = 20;
+    eCtx.shadowOffsetY = 8;
+    eCtx.drawImage(branchImg, W - branchW - 6 * S, 6 * S, branchW, branchH);
     eCtx.restore();
 
-    // [7] 하단 한옥 툇마루 및 달을 바라보는 남녀 어린이 정경
+    // [6] 흩날리는 단풍잎 & 은행잎 몇 장
+    const exportLeaves = [
+      [150, 620, 26, 0.6, 'maple', '#dc2626'], [930, 700, 22, -0.4, 'ginkgo', '#facc15'],
+      [210, 960, 20, 1.2, 'ginkgo', '#eab308'], [880, 990, 24, 2.1, 'maple', '#ea580c'],
+      [110, 300, 18, -0.8, 'ginkgo', '#facc15'], [700, 660, 16, 0.9, 'maple', '#dc2626']
+    ];
+    exportLeaves.forEach(([lx, ly, size, angle, type, color]) => {
+      eCtx.save();
+      eCtx.translate(lx, ly);
+      eCtx.rotate(angle);
+      eCtx.globalAlpha = 0.85;
+      eCtx.fillStyle = color;
+      drawLeafShape(eCtx, type, size);
+      eCtx.restore();
+    });
+
+    // [7] 하단 한옥 기와 & 툇마루에 앉아 달을 바라보는 남녀 어린이 (화면과 동일한 SVG)
+    eCtx.drawImage(hanokImg, 0, H - hanokH, W, hanokH);
     eCtx.save();
-    const maruY = H - 225;
-    const maruH = 155;
-    // 툇마루 바닥
-    const maruGrad = eCtx.createLinearGradient(0, maruY, 0, maruY + maruH);
-    maruGrad.addColorStop(0, '#7c2d12');
-    maruGrad.addColorStop(0.35, '#602107');
-    maruGrad.addColorStop(1, '#290b01');
-    eCtx.fillStyle = maruGrad;
-    eCtx.fillRect(36, maruY, W - 72, maruH);
-
-    // 마루 상단 달빛 림 라인
-    eCtx.strokeStyle = 'rgba(254, 240, 138, 0.45)';
-    eCtx.lineWidth = 3;
-    eCtx.beginPath();
-    eCtx.moveTo(36, maruY); eCtx.lineTo(W - 36, maruY);
-    eCtx.stroke();
-
-    // 널판 틈새 라인
-    eCtx.strokeStyle = '#250b01';
-    eCtx.lineWidth = 2.5;
-    eCtx.beginPath();
-    eCtx.moveTo(36, maruY + 48); eCtx.lineTo(W - 36, maruY + 48);
-    eCtx.moveTo(36, maruY + 98); eCtx.lineTo(W - 36, maruY + 98);
-    eCtx.stroke();
-
-    // 좌우 목조 기둥
-    const pillarGrad = eCtx.createLinearGradient(0, 0, 40, 0);
-    pillarGrad.addColorStop(0, '#582405');
-    pillarGrad.addColorStop(0.6, '#3d1803');
-    pillarGrad.addColorStop(1, '#240c01');
-    eCtx.fillStyle = pillarGrad;
-    eCtx.fillRect(36, maruY - 80, 32, maruH + 110);
-    eCtx.fillRect(W - 68, maruY - 80, 32, maruH + 110);
-
-    // 디딤돌 (화강석 댓돌)
-    const stoneGrad = eCtx.createLinearGradient(0, H - 75, 0, H - 45);
-    stoneGrad.addColorStop(0, '#64748b');
-    stoneGrad.addColorStop(0.5, '#475569');
-    stoneGrad.addColorStop(1, '#1e293b');
-    eCtx.fillStyle = stoneGrad;
-    eCtx.beginPath();
-    eCtx.ellipse(W / 2, H - 55, 140, 24, 0, 0, Math.PI * 2);
-    eCtx.fill();
-
-    // 신발들 (태사혜 & 꽃신)
-    // 남아 태사혜
-    eCtx.fillStyle = '#0f172a';
-    eCtx.beginPath(); eCtx.ellipse(W / 2 - 55, H - 57, 16, 10, 0, 0, Math.PI * 2); eCtx.fill();
-    eCtx.beginPath(); eCtx.ellipse(W / 2 - 25, H - 57, 16, 10, 0, 0, Math.PI * 2); eCtx.fill();
-    eCtx.strokeStyle = '#f8fafc';
-    eCtx.lineWidth = 2.5;
-    eCtx.beginPath();
-    eCtx.arc(W / 2 - 55, H - 57, 10, 0.2, Math.PI - 0.2);
-    eCtx.arc(W / 2 - 25, H - 57, 10, 0.2, Math.PI - 0.2);
-    eCtx.stroke();
-
-    // 여아 꽃신
-    eCtx.fillStyle = '#e11d48';
-    eCtx.beginPath(); eCtx.ellipse(W / 2 + 25, H - 57, 16, 10, 0, 0, Math.PI * 2); eCtx.fill();
-    eCtx.beginPath(); eCtx.ellipse(W / 2 + 55, H - 57, 16, 10, 0, 0, Math.PI * 2); eCtx.fill();
-    eCtx.fillStyle = '#fef08a';
-    eCtx.beginPath(); eCtx.arc(W / 2 + 37, H - 57, 3.5, 0, Math.PI * 2); eCtx.fill();
-    eCtx.beginPath(); eCtx.arc(W / 2 + 67, H - 57, 3.5, 0, Math.PI * 2); eCtx.fill();
-
-    // 마루에 앉아 달을 올려다보는 남녀 어린이
-    // 남아 (도령)
-    const boyX = W / 2 - 95;
-    const boyY = maruY + 12;
-    // 하체 버선
-    eCtx.fillStyle = '#f8fafc';
-    eCtx.fillRect(boyX - 25, boyY + 45, 20, 45);
-    eCtx.fillRect(boyX + 5, boyY + 45, 20, 45);
-    // 도포/쾌자
-    eCtx.fillStyle = '#1e3a8a';
-    eCtx.beginPath();
-    eCtx.moveTo(boyX - 42, boyY - 35);
-    eCtx.lineTo(boyX + 42, boyY - 35);
-    eCtx.lineTo(boyX + 48, boyY + 50);
-    eCtx.lineTo(boyX - 48, boyY + 50);
-    eCtx.closePath();
-    eCtx.fill();
-    // 하늘색 소매
-    eCtx.fillStyle = '#38bdf8';
-    eCtx.beginPath(); eCtx.ellipse(boyX - 45, boyY + 10, 14, 25, 0.3, 0, Math.PI * 2); eCtx.fill();
-    eCtx.beginPath(); eCtx.ellipse(boyX + 45, boyY + 10, 14, 25, -0.3, 0, Math.PI * 2); eCtx.fill();
-    // 손
-    eCtx.fillStyle = '#fde68a';
-    eCtx.beginPath(); eCtx.arc(boyX - 52, boyY + 30, 8, 0, Math.PI * 2); eCtx.fill();
-    eCtx.beginPath(); eCtx.arc(boyX + 45, boyY + 28, 8, 0, Math.PI * 2); eCtx.fill();
-    // 머리 & 볼터치
-    eCtx.fillStyle = '#fef3c7';
-    eCtx.beginPath(); eCtx.ellipse(boyX, boyY - 65, 25, 28, 0, 0, Math.PI * 2); eCtx.fill();
-    eCtx.fillStyle = '#fda4af';
-    eCtx.beginPath(); eCtx.ellipse(boyX + 16, boyY - 60, 6, 4, 0, 0, Math.PI * 2); eCtx.fill();
-    // 검은 복건
-    eCtx.fillStyle = '#0f172a';
-    eCtx.beginPath();
-    eCtx.arc(boyX - 2, boyY - 78, 28, 0.8 * Math.PI, 2.2 * Math.PI);
-    eCtx.fill();
-    eCtx.lineWidth = 8;
-    eCtx.strokeStyle = '#0f172a';
-    eCtx.beginPath();
-    eCtx.moveTo(boyX - 16, boyY - 70);
-    eCtx.quadraticCurveTo(boyX - 30, boyY - 20, boyX - 35, boyY + 20);
-    eCtx.stroke();
-
-    // 여아 (아씨)
-    const girlX = W / 2 + 85;
-    const girlY = maruY + 12;
-    // 다홍치마
-    eCtx.fillStyle = '#e11d48';
-    eCtx.beginPath();
-    eCtx.moveTo(girlX - 40, girlY - 15);
-    eCtx.lineTo(girlX + 40, girlY - 15);
-    eCtx.quadraticCurveTo(girlX + 75, girlY + 60, girlX + 60, girlY + 65);
-    eCtx.lineTo(girlX - 60, girlY + 65);
-    eCtx.quadraticCurveTo(girlX - 75, girlY + 60, girlX - 40, girlY - 15);
-    eCtx.fill();
-    // 저고리
-    eCtx.fillStyle = '#fef08a';
-    eCtx.fillRect(girlX - 35, girlY - 45, 70, 35);
-    // 색동 소매
-    eCtx.fillStyle = '#f472b6';
-    eCtx.beginPath(); eCtx.ellipse(girlX - 42, girlY - 18, 14, 22, -0.2, 0, Math.PI * 2); eCtx.fill();
-    eCtx.beginPath(); eCtx.ellipse(girlX + 42, girlY - 18, 14, 22, 0.2, 0, Math.PI * 2); eCtx.fill();
-    // 손
-    eCtx.fillStyle = '#fde68a';
-    eCtx.beginPath(); eCtx.arc(girlX - 45, girlY, 7, 0, Math.PI * 2); eCtx.fill();
-    eCtx.beginPath(); eCtx.arc(girlX + 45, girlY, 7, 0, Math.PI * 2); eCtx.fill();
-    // 머리 & 댕기머리
-    eCtx.fillStyle = '#fef3c7';
-    eCtx.beginPath(); eCtx.ellipse(girlX, girlY - 68, 25, 27, 0, 0, Math.PI * 2); eCtx.fill();
-    eCtx.fillStyle = '#fda4af';
-    eCtx.beginPath(); eCtx.ellipse(girlX - 16, girlY - 63, 6, 4, 0, 0, Math.PI * 2); eCtx.fill();
-    // 머리카락 & 배씨댕기
-    eCtx.fillStyle = '#1e1b4b';
-    eCtx.beginPath(); eCtx.arc(girlX, girlY - 80, 27, 0.8 * Math.PI, 2.2 * Math.PI); eCtx.fill();
-    eCtx.lineWidth = 10;
-    eCtx.strokeStyle = '#1e1b4b';
-    eCtx.beginPath();
-    eCtx.moveTo(girlX + 18, girlY - 70);
-    eCtx.quadraticCurveTo(girlX + 32, girlY - 20, girlX + 28, girlY + 20);
-    eCtx.stroke();
-    // 붉은 댕기
-    eCtx.fillStyle = '#dc2626';
-    eCtx.beginPath();
-    eCtx.moveTo(girlX + 28, girlY + 12);
-    eCtx.lineTo(girlX + 38, girlY + 45);
-    eCtx.lineTo(girlX + 18, girlY + 45);
-    eCtx.closePath();
-    eCtx.fill();
-    eCtx.fillStyle = '#dc2626';
-    eCtx.beginPath(); eCtx.arc(girlX, girlY - 104, 6, 0, Math.PI * 2); eCtx.fill();
-
-    // 송편 소반
-    const sobanX = W - 180;
-    const sobanY = maruY + 15;
-    eCtx.fillStyle = '#582405';
-    eCtx.beginPath(); eCtx.ellipse(sobanX, sobanY, 40, 12, 0, 0, Math.PI * 2); eCtx.fill();
-    eCtx.fillStyle = '#f8fafc';
-    eCtx.beginPath(); eCtx.ellipse(sobanX, sobanY - 6, 30, 8, 0, 0, Math.PI * 2); eCtx.fill();
-    // 송편알
-    eCtx.fillStyle = '#15803d';
-    eCtx.beginPath(); eCtx.ellipse(sobanX - 14, sobanY - 9, 9, 6, 0, 0, Math.PI * 2); eCtx.fill();
-    eCtx.fillStyle = '#f43f5e';
-    eCtx.beginPath(); eCtx.ellipse(sobanX + 14, sobanY - 9, 9, 6, 0, 0, Math.PI * 2); eCtx.fill();
-    eCtx.fillStyle = '#facc15';
-    eCtx.beginPath(); eCtx.ellipse(sobanX, sobanY - 13, 9, 6, 0, 0, Math.PI * 2); eCtx.fill();
-
+    eCtx.shadowColor = 'rgba(0, 0, 0, 0.65)';
+    eCtx.shadowBlur = 36;
+    eCtx.shadowOffsetY = -10;
+    eCtx.drawImage(maruImg, 0, H - maruH, W, maruH);
     eCtx.restore();
 
     // [8] 텍스트 렌더링 (호칭, 타이틀, 메시지, 서명)
     eCtx.textAlign = 'center';
+    eCtx.textBaseline = 'alphabetic';
 
     // 1) 받는 분
-    eCtx.font = 'bold 36px "Nanum Myeongjo", serif';
+    eCtx.font = '700 38px "Nanum Myeongjo", serif';
     eCtx.fillStyle = '#fef08a';
     eCtx.shadowColor = 'rgba(0, 0, 0, 0.9)';
     eCtx.shadowBlur = 10;
-    const recipientText = `〔 ${displayRecipient.textContent} 〕`;
-    eCtx.fillText(recipientText, W / 2, H * 0.52);
+    eCtx.fillText(`〔 ${displayRecipient.textContent.trim()} 〕`, W / 2, 700);
 
-    // 2) 메인 타이틀
-    eCtx.font = '800 58px "Nanum Myeongjo", serif';
-    eCtx.fillStyle = '#fffbeb';
-    eCtx.shadowBlur = 20;
-    eCtx.shadowColor = 'rgba(253, 224, 71, 0.7)';
-    eCtx.fillText(displayTitle.textContent, W / 2, H * 0.59);
-    eCtx.shadowBlur = 0;
+    // 2) 메인 타이틀 (화면과 같은 흰색→금색 그라데이션)
+    const titleY = 782;
+    eCtx.font = '800 62px "Nanum Myeongjo", serif';
+    const titleGrad = eCtx.createLinearGradient(0, titleY - 55, 0, titleY + 8);
+    titleGrad.addColorStop(0.1, '#ffffff');
+    titleGrad.addColorStop(0.85, '#fef08a');
+    eCtx.fillStyle = titleGrad;
+    eCtx.shadowBlur = 24;
+    eCtx.shadowColor = 'rgba(253, 224, 71, 0.6)';
+    eCtx.fillText(displayTitle.textContent.trim(), W / 2, titleY);
 
-    // 3) 인사말 본문 (줄바꿈 처리)
-    eCtx.font = '400 32px "Nanum Myeongjo", serif';
+    // 3) 인사말 본문 (줄바꿈 + 긴 줄 자동 줄바꿈)
+    eCtx.font = '400 33px "Nanum Myeongjo", serif';
     eCtx.fillStyle = '#f8fafc';
     eCtx.shadowColor = 'rgba(0, 0, 0, 0.95)';
     eCtx.shadowBlur = 8;
     const rawMsg = displayMessage.innerHTML.replace(/<br\s*[\/]?>/gi, '\n');
-    const msgLines = rawMsg.split('\n');
-    let startY = H * 0.655;
-    const lineHeight = 46;
+    const msgLines = [];
+    rawMsg.split('\n').forEach(line => {
+      const cleanLine = line.replace(/<[^>]*>?/gm, '').replace(/\s+/g, ' ').trim();
+      if (cleanLine) msgLines.push(...wrapText(eCtx, cleanLine, W - 200));
+    });
+    let lineY = 862;
+    const lineHeight = 54;
     msgLines.forEach(line => {
-      const cleanLine = line.replace(/<[^>]*>?/gm, '').trim();
-      if (cleanLine) {
-        eCtx.fillText(cleanLine, W / 2, startY);
-        startY += lineHeight;
-      }
+      eCtx.fillText(line, W / 2, lineY);
+      lineY += lineHeight;
     });
 
-    // 4) 보내는 분 & 도장
-    const senderY = H * 0.775;
-    eCtx.font = '600 28px "Nanum Myeongjo", serif';
+    // 4) 보내는 분 & 붉은 인장 도장 ("秋夕")
+    const senderY = lineY + 18;
+    const senderText = displaySender.textContent.trim();
+    eCtx.font = '700 29px "Nanum Myeongjo", serif';
+    const senderW = eCtx.measureText(senderText).width;
+    const stampSize = 44;
+    const gap = 16;
+    const groupLeft = W / 2 - (senderW + gap + stampSize) / 2;
+    eCtx.textAlign = 'left';
     eCtx.fillStyle = '#cbd5e1';
-    const senderText = displaySender.textContent;
-    eCtx.fillText(senderText, W / 2 - 25, senderY);
+    eCtx.fillText(senderText, groupLeft, senderY);
+    eCtx.shadowBlur = 0;
 
-    // 붉은 인장 도장 ("秋夕")
+    const stampX = groupLeft + senderW + gap;
+    const stampY = senderY - 34;
+    eCtx.fillStyle = 'rgba(220, 38, 38, 0.18)';
+    eCtx.fillRect(stampX, stampY, stampSize, stampSize);
     eCtx.strokeStyle = '#dc2626';
     eCtx.lineWidth = 3;
-    eCtx.strokeRect(W / 2 + 105, senderY - 26, 38, 38);
-    eCtx.fillStyle = 'rgba(220, 38, 38, 0.2)';
-    eCtx.fillRect(W / 2 + 105, senderY - 26, 38, 38);
-    eCtx.font = 'bold 20px "Nanum Myeongjo", serif';
+    eCtx.strokeRect(stampX, stampY, stampSize, stampSize);
+    eCtx.font = '700 19px "Nanum Myeongjo", serif';
     eCtx.fillStyle = '#ef4444';
-    eCtx.fillText('秋夕', W / 2 + 124, senderY + 1);
+    eCtx.textAlign = 'center';
+    eCtx.textBaseline = 'middle';
+    eCtx.fillText('秋夕', stampX + stampSize / 2, stampY + stampSize / 2 + 1);
+    eCtx.textBaseline = 'alphabetic';
+
+    // [9] 전통 창호 프레임 & 모서리 금빛 선 (일러스트 위에 덮어 그림)
+    eCtx.strokeStyle = 'rgba(253, 224, 71, 0.4)';
+    eCtx.lineWidth = 3;
+    eCtx.strokeRect(24, 24, W - 48, H - 48);
+
+    eCtx.setLineDash([8, 8]);
+    eCtx.strokeStyle = 'rgba(253, 224, 71, 0.22)';
+    eCtx.lineWidth = 2;
+    eCtx.strokeRect(34, 34, W - 68, H - 68);
+    eCtx.setLineDash([]);
+
+    eCtx.strokeStyle = '#facc15';
+    eCtx.lineWidth = 6;
+    eCtx.lineCap = 'square';
+    const cs = 40;
+    const m = 24;
+    eCtx.beginPath();
+    eCtx.moveTo(m, m + cs); eCtx.lineTo(m, m); eCtx.lineTo(m + cs, m);
+    eCtx.moveTo(W - m - cs, m); eCtx.lineTo(W - m, m); eCtx.lineTo(W - m, m + cs);
+    eCtx.moveTo(m, H - m - cs); eCtx.lineTo(m, H - m); eCtx.lineTo(m + cs, H - m);
+    eCtx.moveTo(W - m - cs, H - m); eCtx.lineTo(W - m, H - m); eCtx.lineTo(W - m, H - m - cs);
+    eCtx.stroke();
 
     return exportCanvas;
   }
 
-  // 카드 PNG 파일로 다운로드
-  function generateCardImage() {
-    const exportCanvas = renderCardToCanvas();
-    const imageUri = exportCanvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.download = `chuseok_greeting_card_${Date.now()}.png`;
-    link.href = imageUri;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  function canvasToBlob(c) {
+    return new Promise((resolve, reject) => {
+      c.toBlob(blob => (blob ? resolve(blob) : reject(new Error('toBlob failed'))), 'image/png');
+    });
+  }
 
-    showToast("🎉 카드가 이미지로 저장되었습니다!");
+  // 카드 PNG 파일로 다운로드
+  async function generateCardImage() {
+    try {
+      const exportCanvas = await renderCardToCanvas();
+      const link = document.createElement('a');
+      link.download = `chuseok_greeting_card_${Date.now()}.png`;
+      link.href = exportCanvas.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("🎉 카드가 이미지로 저장되었습니다!");
+    } catch (err) {
+      console.error('Card image export failed:', err);
+      showToast("이미지 생성에 실패했습니다. 다시 시도해 주세요.");
+    }
   }
 
   // 카톡 전송용 클립보드 복사 (PC 카톡에서 Ctrl+V로 바로 전송)
   function copyCardForKakao() {
     showToast("카톡 전송용 이미지 복사 중...");
-    const exportCanvas = renderCardToCanvas();
 
     // 텍스트 메시지 생성
     const rawMsg = displayMessage.innerText.trim();
     const fullShareText = `🌕 [한가위 추석 인사]\n\n${displayRecipient.innerText}\n\n${rawMsg}\n\n- ${displaySender.innerText} -`;
 
-    if (exportCanvas.toBlob && navigator.clipboard && window.ClipboardItem) {
-      exportCanvas.toBlob(blob => {
-        if (!blob) {
-          fallbackKakaoShare(fullShareText);
-          return;
-        }
-        navigator.clipboard.write([
-          new ClipboardItem({ 'image/png': blob })
-        ]).then(() => {
-          showToast("💬 카드가 복사되었습니다! 카톡 대화방에서 Ctrl+V 하세요!");
-        }).catch(err => {
-          console.warn('Clipboard image write failed, using fallback:', err);
-          fallbackKakaoShare(fullShareText);
-        });
-      }, 'image/png');
+    if (navigator.clipboard && window.ClipboardItem) {
+      // Blob 대신 Promise를 넘겨야 사파리에서도 사용자 클릭 직후 복사 권한이 유지됨
+      const blobPromise = renderCardToCanvas().then(canvasToBlob);
+      navigator.clipboard.write([
+        new ClipboardItem({ 'image/png': blobPromise })
+      ]).then(() => {
+        showToast("💬 카드가 복사되었습니다! 카톡 대화방에서 Ctrl+V 하세요!");
+      }).catch(err => {
+        console.warn('Clipboard image write failed, using fallback:', err);
+        fallbackKakaoShare(fullShareText);
+      });
     } else {
       fallbackKakaoShare(fullShareText);
     }
@@ -1115,7 +999,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function fallbackKakaoShare(text) {
     generateCardImage();
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(text);
+      navigator.clipboard.writeText(text).catch(() => {});
       showToast("📥 카드 이미지 저장 및 인사말 복사 완료! 카톡에 사진을 첨부하세요.");
     } else {
       showToast("📥 카드 이미지가 저장되었습니다. 카톡으로 사진을 전송하세요!");
