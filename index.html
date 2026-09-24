@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>풍성한 한가위 - 움직이는 추석 인사 카드</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&family=Song+Myung&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- 상단 컨트롤 툴바 -->
+    <header class="toolbar">
+      <div class="toolbar-brand">
+        <span class="symbol">🌕</span>
+        <span class="title">한가위 달빛 카드</span>
+      </div>
+      <div class="toolbar-actions">
+        <button id="btn-bgm" class="btn-tool" title="배경음악 켜기/끄기">
+          <span class="icon" id="bgm-icon">🎵</span>
+          <span class="label" id="bgm-label">음악 켜기</span>
+        </button>
+        <button id="btn-wish" class="btn-tool primary" title="보름달에 소원 풍등 띄우기">
+          <span class="icon">✨</span>
+          <span class="label">소원 빌기</span>
+        </button>
+        <button id="btn-edit" class="btn-tool" title="인사말 문구 수정하기">
+          <span class="icon">✏️</span>
+          <span class="label">문구 수정</span>
+        </button>
+        <button id="btn-save" class="btn-tool" title="카드 이미지(PNG) 저장">
+          <span class="icon">📥</span>
+          <span class="label">카드 저장</span>
+        </button>
+        <button id="btn-kakao" class="btn-tool kakao" title="카톡 대화방에 바로 붙여넣기(Ctrl+V)할 수 있게 복사">
+          <span class="icon">💬</span>
+          <span class="label">카톡 복사</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 메인 카드 뷰포트 -->
+    <main class="card-wrapper">
+      <div class="card" id="chuseok-card">
+        <!-- 배경 캔버스 (별빛, 단풍잎, 풍등 파티클) -->
+        <canvas id="sky-canvas"></canvas>
+
+        <!-- 전통 격자 테두리 프레임 -->
+        <div class="traditional-frame">
+          <div class="corner corner-tl"></div>
+          <div class="corner corner-tr"></div>
+          <div class="corner corner-bl"></div>
+          <div class="corner corner-br"></div>
+        </div>
+
+        <!-- 감나무 가지 장식 (상단 우측) -->
+        <div class="persimmon-branch" id="persimmon-branch">
+          <svg viewBox="0 0 260 200" class="branch-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- 나뭇가지 -->
+            <path d="M260,20 Q200,30 160,70 T80,90 Q40,105 10,120" stroke="#4a3728" stroke-width="7" stroke-linecap="round"/>
+            <path d="M170,65 Q150,110 120,130" stroke="#4a3728" stroke-width="4.5" stroke-linecap="round"/>
+            <path d="M100,85 Q80,120 60,135" stroke="#4a3728" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M220,25 Q200,60 190,85" stroke="#4a3728" stroke-width="4" stroke-linecap="round"/>
+            
+            <!-- 나뭇잎들 -->
+            <g class="leaf-group">
+              <path d="M150,60 C130,45 110,60 130,80 C150,90 160,75 150,60 Z" fill="#4d7c0f" opacity="0.85"/>
+              <path d="M110,80 C90,65 75,80 95,98 C115,105 120,95 110,80 Z" fill="#65a30d" opacity="0.85"/>
+              <path d="M70,95 C55,80 40,95 60,110 C75,115 80,105 70,95 Z" fill="#b45309" opacity="0.85"/>
+              <path d="M180,80 C165,70 155,85 170,100 C185,105 190,95 180,80 Z" fill="#84cc16" opacity="0.85"/>
+              <path d="M40,115 C25,105 15,120 35,130 C45,135 50,125 40,115 Z" fill="#d97706" opacity="0.85"/>
+            </g>
+
+            <!-- 주황빛 탐스러운 감들 (바람에 살랑살랑) -->
+            <!-- 감 1 -->
+            <g class="persimmon persimmon-1">
+              <!-- 꼭지 -->
+              <path d="M117,125 Q120,132 120,135" stroke="#37261a" stroke-width="2.5"/>
+              <path d="M112,133 Q120,130 128,133 Q120,136 112,133 Z" fill="#3f5926"/>
+              <!-- 열매 -->
+              <ellipse cx="120" cy="147" rx="16" ry="14" fill="url(#persimmonGrad1)"/>
+              <ellipse cx="116" cy="144" rx="5" ry="3" fill="#ffedd5" opacity="0.45"/>
+            </g>
+
+            <!-- 감 2 -->
+            <g class="persimmon persimmon-2">
+              <path d="M57,130 Q60,137 60,140" stroke="#37261a" stroke-width="2.5"/>
+              <path d="M52,138 Q60,135 68,138 Q60,141 52,138 Z" fill="#3f5926"/>
+              <ellipse cx="60" cy="151" rx="14" ry="12.5" fill="url(#persimmonGrad2)"/>
+              <ellipse cx="56" cy="148" rx="4" ry="2.5" fill="#ffedd5" opacity="0.45"/>
+            </g>
+
+            <!-- 감 3 -->
+            <g class="persimmon persimmon-3">
+              <path d="M188,82 Q190,88 190,91" stroke="#37261a" stroke-width="2.5"/>
+              <path d="M183,89 Q190,86 197,89 Q190,92 183,89 Z" fill="#3f5926"/>
+              <ellipse cx="190" cy="102" rx="13" ry="11.5" fill="url(#persimmonGrad1)"/>
+              <ellipse cx="187" cy="99" rx="4" ry="2.5" fill="#ffedd5" opacity="0.45"/>
+            </g>
+
+            <defs>
+              <radialGradient id="persimmonGrad1" cx="35%" cy="35%" r="70%">
+                <stop offset="0%" stop-color="#fb923c"/>
+                <stop offset="65%" stop-color="#ea580c"/>
+                <stop offset="100%" stop-color="#9a3412"/>
+              </radialGradient>
+              <radialGradient id="persimmonGrad2" cx="35%" cy="35%" r="70%">
+                <stop offset="0%" stop-color="#f97316"/>
+                <stop offset="70%" stop-color="#c2410c"/>
+                <stop offset="100%" stop-color="#7c2d12"/>
+              </radialGradient>
+            </defs>
+          </svg>
+        </div>
+
+        <!-- 은은한 전통 구름 (하단/상단 흐름) -->
+        <div class="clouds-layer">
+          <div class="cloud cloud-1"></div>
+          <div class="cloud cloud-2"></div>
+        </div>
+
+        <!-- 보름달 및 떡방아 찧는 달토끼 컨테이너 -->
+        <div class="moon-section" id="moon-section">
+          <!-- 달빛 오라(Glow) -->
+          <div class="moon-aura aura-outer"></div>
+          <div class="moon-aura aura-inner"></div>
+
+          <!-- 보름달 본체 -->
+          <div class="full-moon" id="full-moon" title="보름달을 클릭하면 소원 풍등이 떠오릅니다!">
+            <!-- 달 표면 분화구/음영 -->
+            <div class="moon-crater crater-1"></div>
+            <div class="moon-crater crater-2"></div>
+            <div class="moon-crater crater-3"></div>
+
+            <!-- 달 속 달토끼 실루엣 & 떡방아 애니메이션 -->
+            <div class="rabbit-scene">
+              <svg viewBox="0 0 160 140" class="rabbit-svg" xmlns="http://www.w3.org/2000/svg">
+                <!-- 절구 (Mortar) -->
+                <path d="M 85,95 Q 85,82 92,80 L 128,80 Q 135,82 135,95 Q 135,120 125,128 L 95,128 Q 85,120 85,95 Z" fill="#3a405a" opacity="0.85"/>
+                <ellipse cx="110" cy="80" rx="18" ry="5" fill="#2d3246"/>
+                <!-- 절구 속 반죽 (찰떡) -->
+                <ellipse cx="110" cy="81" rx="12" ry="4" fill="#f1f5f9" class="rice-cake"/>
+                <!-- 쿵덕 쿵덕 떡 파티클 팝 효과 -->
+                <g class="rice-pop">
+                  <circle cx="106" cy="74" r="2.5" fill="#f8fafc"/>
+                  <circle cx="114" cy="73" r="2" fill="#f8fafc"/>
+                  <circle cx="110" cy="70" r="1.8" fill="#f8fafc"/>
+                </g>
+
+                <!-- 달토끼 (Moon Rabbit) -->
+                <g class="rabbit-body-group">
+                  <!-- 꼬리 -->
+                  <circle cx="28" cy="115" r="7" fill="#e2e8f0" opacity="0.9"/>
+                  <!-- 몸통 (다소곳이 앉은 토끼) -->
+                  <ellipse cx="50" cy="108" rx="20" ry="16" fill="#e2e8f0" opacity="0.95"/>
+                  <!-- 뒷다리 -->
+                  <ellipse cx="38" cy="116" rx="12" ry="8" fill="#cbd5e1" opacity="0.95"/>
+                  <!-- 앞가슴/목 -->
+                  <ellipse cx="62" cy="95" rx="13" ry="12" fill="#e2e8f0" opacity="0.95"/>
+                  <!-- 머리 -->
+                  <circle cx="68" cy="80" r="12" fill="#f1f5f9"/>
+                  <!-- 볼터치 -->
+                  <ellipse cx="73" cy="84" rx="2.5" ry="1.8" fill="#fda4af" opacity="0.7"/>
+                  <!-- 귀 2개 (쫑긋) -->
+                  <path d="M63,73 C55,50 63,40 68,46 C73,52 69,68 67,73 Z" fill="#f1f5f9"/>
+                  <path d="M65,70 C59,53 64,46 67,50 C70,54 68,66 67,70 Z" fill="#fbcfe8" opacity="0.6"/>
+                  <path d="M70,74 C70,48 79,41 82,47 C85,53 77,69 74,74 Z" fill="#f1f5f9"/>
+                  <path d="M71,71 C72,51 78,46 80,50 C82,54 76,67 74,71 Z" fill="#fbcfe8" opacity="0.6"/>
+                  <!-- 눈 -->
+                  <ellipse cx="74" cy="79" rx="1.5" ry="2" fill="#334155"/>
+                  <circle cx="74.5" cy="78.5" r="0.6" fill="#ffffff"/>
+                </g>
+
+                <!-- 토끼 팔 & 방아공이 (Pestle - 회전 애니메이션) -->
+                <g class="pestle-arm-group" id="pestle-arm">
+                  <!-- 팔 -->
+                  <path d="M68,96 Q80,95 86,88" stroke="#f1f5f9" stroke-width="7" stroke-linecap="round"/>
+                  <!-- 방아공이 자루 -->
+                  <line x1="83" y1="94" x2="108" y2="52" stroke="#d97706" stroke-width="4.5" stroke-linecap="round"/>
+                  <!-- 방아공이 머리 -->
+                  <ellipse cx="110" cy="52" rx="6" ry="12" transform="rotate(-30 110 52)" fill="#b45309"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+          <div class="moon-click-hint">🌕 달을 터치하면 소원 풍등이 떠오릅니다</div>
+        </div>
+
+        <!-- 텍스트 & 인사말 영역 -->
+        <div class="message-container">
+          <div class="recipient-tag">
+            <span class="decor-bracket">〔</span>
+            <span id="display-recipient" class="text-recipient">뭉치자 여러분께</span>
+            <span class="decor-bracket">〕</span>
+          </div>
+
+          <h1 class="main-title" id="display-title">
+            풍요롭고 따뜻한 한가위
+          </h1>
+
+          <div class="message-body" id="display-message">
+            뭉치자 여러분! 올 한가위에는 보름달 아래<br>
+            다 함께 모여 맛있는 송편도 나누고<br>
+            풍성하고 따뜻한 이야기꽃을 피워봅시다.
+          </div>
+
+          <div class="sender-tag">
+            <span class="text-sender" id="display-sender">마음을 담아 드림</span>
+            <span class="traditional-stamp">秋夕</span>
+          </div>
+        </div>
+
+        <!-- 하단 전통 기와지붕 & 잔디 실루엣 -->
+        <div class="hanok-scenery">
+          <svg viewBox="0 0 800 130" class="hanok-svg" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="roofGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#1e293b"/>
+                <stop offset="100%" stop-color="#090d16"/>
+              </linearGradient>
+            </defs>
+            <!-- 왼쪽 기와 처마 곡선 -->
+            <path d="M -20,130 L -20,70 Q 60,65 140,85 Q 190,95 240,130 Z" fill="url(#roofGrad)"/>
+            <path d="M 0,72 Q 80,68 150,87" stroke="#64748b" stroke-width="3.5" fill="none" opacity="0.6"/>
+            <!-- 오른쪽 기와 처마 곡선 -->
+            <path d="M 560,130 Q 610,95 660,85 Q 740,65 820,70 L 820,130 Z" fill="url(#roofGrad)"/>
+            <path d="M 650,87 Q 720,68 800,72" stroke="#64748b" stroke-width="3.5" fill="none" opacity="0.6"/>
+            <!-- 처마 끝 풍경(종) 달기 -->
+            <g class="chime chime-left">
+              <line x1="140" y1="85" x2="140" y2="102" stroke="#e2e8f0" stroke-width="1.5"/>
+              <ellipse cx="140" cy="105" rx="3.5" ry="3" fill="#eab308"/>
+              <path d="M138,107 L142,107 L141,118 L139,118 Z" fill="#f59e0b"/>
+            </g>
+            <g class="chime chime-right">
+              <line x1="660" y1="85" x2="660" y2="102" stroke="#e2e8f0" stroke-width="1.5"/>
+              <ellipse cx="660" cy="105" rx="3.5" ry="3" fill="#eab308"/>
+              <path d="M658,107 L662,107 L661,118 L659,118 Z" fill="#f59e0b"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </main>
+
+    <!-- 하단 빠른 프리셋 선택 바 -->
+    <footer class="preset-bar">
+      <div class="preset-label">추천 인사말 :</div>
+      <div class="preset-buttons">
+        <button class="btn-preset active" data-preset="1">뭉치자 여러분! (모임)</button>
+        <button class="btn-preset" data-preset="2">따뜻한 한가위 (정)</button>
+        <button class="btn-preset" data-preset="3">보름달 소원 (희망)</button>
+        <button class="btn-preset" data-preset="4">건강과 평안 (기원)</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 모달 1: 소원 빌기 모달 -->
+  <div class="modal-backdrop" id="modal-wish">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>🌕 보름달에 소원 빌기</h3>
+        <button class="btn-close" id="btn-close-wish">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">한가위 둥근 보름달에 소원을 빌어보세요.<br>입력하신 소원이 따뜻한 풍등에 실려 밤하늘로 떠오릅니다.</p>
+        <div class="form-group">
+          <label for="input-wish-text">나의 소원 한 줄</label>
+          <input type="text" id="input-wish-text" maxlength="35" placeholder="예: 뭉치자 여러분 모두 건강하고 대박나게 해주세요!">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-sub" id="btn-cancel-wish">취소</button>
+        <button class="btn-main" id="btn-send-wish">풍등 띄우기 🏮</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 모달 2: 문구 수정 모달 -->
+  <div class="modal-backdrop" id="modal-edit">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>✏️ 추석 카드 문구 편집</h3>
+        <button class="btn-close" id="btn-close-edit">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="edit-recipient">받는 분 (호칭)</label>
+          <input type="text" id="edit-recipient" value="뭉치자 여러분께">
+        </div>
+        <div class="form-group">
+          <label for="edit-title">카드 큰 제목</label>
+          <input type="text" id="edit-title" value="풍요롭고 따뜻한 한가위">
+        </div>
+        <div class="form-group">
+          <label for="edit-message">인사말 본문</label>
+          <textarea id="edit-message" rows="4">뭉치자 여러분! 올 한가위에는 보름달 아래
+다 함께 모여 맛있는 송편도 나누고
+풍성하고 따뜻한 이야기꽃을 피워봅시다.</textarea>
+        </div>
+        <div class="form-group">
+          <label for="edit-sender">보내는 분</label>
+          <input type="text" id="edit-sender" value="마음을 담아 드림">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-sub" id="btn-cancel-edit">취소</button>
+        <button class="btn-main" id="btn-apply-edit">카드에 적용하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 알림 토스트 메시지 -->
+  <div class="toast-message" id="toast-message"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
