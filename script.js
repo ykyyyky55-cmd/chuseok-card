@@ -55,27 +55,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   const PRESETS = {
     1: {
-      recipient: "뭉치자 여러분께",
+      recipient: "뭉치자 여러분!",
       title: "풍요롭고 따뜻한 한가위",
-      message: "뭉치자 여러분! 올 한가위에는 보름달 아래 다 함께 모여 맛있는 송편도 나누고 풍성한 이야기꽃을 피워봅시다!",
+      message: "올 한가위에는 보름달 아래\n다 함께 모여 맛있는 송편도 나누고\n풍성하고 따뜻한 이야기꽃을 피우는 즐거운 한가위되세요!!",
       sender: "함께하는 마음을 담아 드림"
     },
     2: {
-      recipient: "뭉치자 여러분께",
+      recipient: "뭉치자 여러분!",
       title: "마음까지 넉넉한 한가위",
-      message: "뭉치자 여러분! 둥근 보름달처럼 마음까지 가득 찬 따스하고 넉넉한 한가위 보내세요. 곁에 있는 소중한 사람들과 더없이 행복한 시간 되시길 바랍니다.",
+      message: "둥근 보름달처럼 마음까지 가득 찬 따스하고 넉넉한 한가위 보내세요. 곁에 있는 소중한 사람들과 더없이 행복한 시간 되시길 바랍니다.",
       sender: "따뜻한 정을 담아 드림"
     },
     3: {
-      recipient: "뭉치자 여러분께",
+      recipient: "뭉치자 여러분!",
       title: "소원 성취하는 한가위",
-      message: "뭉치자 여러분! 환하게 떠오른 한가위 보름달에 소원 빌고, 올 한 해 바라는 모든 일들이 술술 풀리길 힘차게 응원합니다.",
+      message: "환하게 떠오른 한가위 보름달에 소원 빌고, 올 한 해 바라는 모든 일들이 술술 풀리길 힘차게 응원합니다.",
       sender: "한결같은 응원을 담아 드림"
     },
     4: {
-      recipient: "뭉치자 여러분께",
+      recipient: "뭉치자 여러분!",
       title: "늘 건강하고 평안하시길",
-      message: "뭉치자 여러분! 보름달의 온화한 빛이 언제나 앞길을 비추길 바라며, 건강과 평안이 깃드는 풍요롭고 복된 명절 되시기를 진심으로 기원합니다.",
+      message: "보름달의 온화한 빛이 언제나 앞길을 비추길 바라며, 건강과 평안이 깃드는 풍요롭고 복된 명절 되시기를 진심으로 기원합니다.",
       sender: "건강과 평안을 빌며 드림"
     }
   };
@@ -534,7 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btnCancelEdit.addEventListener('click', () => modalEdit.classList.remove('open'));
 
   btnApplyEdit.addEventListener('click', () => {
-    const r = editRecipient.value.trim() || "뭉치자 여러분께";
+    const r = editRecipient.value.trim() || "뭉치자 여러분!";
     const t = editTitle.value.trim() || "풍요로운 한가위";
     const m = editMessage.value.trim() || "풍성한 한가위 보내세요.";
     const s = editSender.value.trim() || "마음을 담아 드림";
