@@ -429,17 +429,239 @@ body {
   background: rgba(217, 119, 6, 0.4);
 }
 
-/* ================= 6. 인사말 메시지 영역 ================= */
-.message-container {
+/* ================= 6. 인사말 부유 & 풍등 변신 모션 영역 ================= */
+.greeting-ascend-wrapper {
   position: relative;
   z-index: 5;
   width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  animation: ascend-wrapper-cycle 18s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+}
+
+/* 마우스 올릴 때 텍스트를 편하게 읽을 수 있도록 일시정지 */
+.greeting-ascend-wrapper:hover,
+.greeting-ascend-wrapper:hover .message-container,
+.greeting-ascend-wrapper:hover .morph-lantern {
+  animation-play-state: paused;
+}
+
+.message-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  margin-bottom: 28px;
   padding: 0 10px;
+  animation: message-morph-cycle 18s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+  transform-origin: center center;
+}
+
+/* 변신하는 황금 풍등 (Morphing Lantern) */
+.morph-lantern {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 82px;
+  height: 108px;
+  margin-left: -41px;
+  margin-top: -54px;
+  pointer-events: none;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: lantern-ascend-cycle 18s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+}
+
+.lantern-outer-glow {
+  position: absolute;
+  inset: -38px;
+  background: radial-gradient(circle, rgba(254, 240, 138, 0.8) 0%, rgba(245, 158, 11, 0.35) 45%, transparent 75%);
+  border-radius: 50%;
+  animation: lantern-glow-pulse 2s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.lantern-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, #fffbeb 0%, #fef08a 25%, #f59e0b 65%, #d97706 100%);
+  border-radius: 20px 20px 14px 14px;
+  box-shadow: 0 0 30px rgba(253, 224, 71, 0.85), inset 0 0 18px rgba(217, 119, 6, 0.55);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.lantern-flame {
+  position: absolute;
+  bottom: 10px;
+  width: 14px;
+  height: 22px;
+  background: radial-gradient(ellipse at 50% 80%, #ffffff 0%, #fde047 35%, #ea580c 85%, transparent 100%);
+  border-radius: 50% 50% 35% 35%;
+  filter: drop-shadow(0 0 10px #f59e0b);
+  animation: flame-flutter 1.2s ease-in-out infinite alternate;
+}
+
+.lantern-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.lantern-text {
+  font-family: var(--font-serif);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #7c2d12;
+  line-height: 1.25;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+  letter-spacing: -0.02em;
+}
+
+.lantern-tassel {
+  width: 3.5px;
+  height: 26px;
+  background: #dc2626;
+  margin-top: 2px;
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(220, 38, 38, 0.7);
+  transform-origin: top center;
+  animation: tassel-swing 2.2s ease-in-out infinite alternate;
+}
+
+@keyframes flame-flutter {
+  0% { transform: scale(0.9) skewX(-2deg); opacity: 0.85; }
+  100% { transform: scale(1.1) skewX(2deg); opacity: 1; }
+}
+
+@keyframes lantern-glow-pulse {
+  0% { transform: scale(0.92); opacity: 0.75; }
+  100% { transform: scale(1.08); opacity: 1; }
+}
+
+@keyframes tassel-swing {
+  0% { transform: rotate(-7deg); }
+  100% { transform: rotate(7deg); }
+}
+
+/* ================= 래퍼 및 요소별 키프레임 ================= */
+/* 1. 래퍼: 하단에서 화면 중앙(달빛 아래)으로 천천히 상승 */
+@keyframes ascend-wrapper-cycle {
+  0% {
+    transform: translateY(65px);
+  }
+  /* 천천히 위로 중간 지점까지 올라옴 (약 7초 소요) */
+  38% {
+    transform: translateY(-45px);
+  }
+  48% {
+    transform: translateY(-55px);
+  }
+  85% {
+    transform: translateY(-55px);
+  }
+  92% {
+    transform: translateY(65px);
+  }
+  100% {
+    transform: translateY(65px);
+  }
+}
+
+/* 2. 인사말 텍스트: 선명하게 읽히다 중간에서 빛으로 수렴하며 모핑 소멸 */
+@keyframes message-morph-cycle {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+    filter: blur(4px);
+  }
+  6% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px) drop-shadow(0 2px 10px rgba(0,0,0,0.8));
+  }
+  /* 중간까지 올라오는 동안 텍스트를 편안하게 감상 */
+  36% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 2px 10px rgba(0,0,0,0.8));
+  }
+  /* 중간 도달 후 황금빛 오라가 감돌며 풍등으로 압축 모핑 */
+  41% {
+    opacity: 1;
+    transform: scale(0.85);
+    filter: brightness(2.2) drop-shadow(0 0 25px rgba(253, 224, 71, 1));
+  }
+  46% {
+    opacity: 0;
+    transform: scale(0.2) translateY(-25px);
+    filter: brightness(3.5) blur(10px);
+  }
+  90% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  96% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 3. 황금 풍등: 중간 지점에서 피어나 달빛 곁을 지나 밤하늘로 승천 */
+@keyframes lantern-ascend-cycle {
+  0%, 40% {
+    opacity: 0;
+    transform: scale(0.15) translateY(0);
+    pointer-events: none;
+  }
+  /* 텍스트가 사라지는 순간 풍등이 황금빛으로 화려하게 등장! */
+  44% {
+    opacity: 0.8;
+    transform: scale(0.7) translateY(0);
+    filter: drop-shadow(0 0 35px rgba(251, 191, 36, 1));
+  }
+  47% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-5px);
+    filter: drop-shadow(0 0 40px rgba(251, 191, 36, 1));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) translateY(-15px);
+  }
+  /* 보름달 옆을 지나며 밤하늘 상공으로 천천히 비행 */
+  62% {
+    opacity: 1;
+    transform: scale(0.88) translateY(-160px) translateX(-18px);
+  }
+  74% {
+    opacity: 0.95;
+    transform: scale(0.72) translateY(-320px) translateX(14px);
+  }
+  84% {
+    opacity: 0.85;
+    transform: scale(0.55) translateY(-460px) translateX(-10px);
+  }
+  91% {
+    opacity: 0;
+    transform: scale(0.28) translateY(-560px) translateX(6px);
+  }
+  93%, 100% {
+    opacity: 0;
+    transform: scale(0.15) translateY(0);
+  }
 }
 
 .recipient-tag {

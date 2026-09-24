@@ -184,27 +184,42 @@
           <div class="moon-click-hint">🌕 달을 터치하면 소원 풍등이 떠오릅니다</div>
         </div>
 
-        <!-- 텍스트 & 인사말 영역 -->
-        <div class="message-container">
-          <div class="recipient-tag">
-            <span class="decor-bracket">〔</span>
-            <span id="display-recipient" class="text-recipient">뭉치자 여러분!</span>
-            <span class="decor-bracket">〕</span>
+        <!-- 천천히 떠오르다 풍등으로 변신하는 인사말 래퍼 -->
+        <div class="greeting-ascend-wrapper" id="greeting-ascend-wrapper">
+          <!-- 텍스트 영역 -->
+          <div class="message-container" id="message-container">
+            <div class="recipient-tag">
+              <span class="decor-bracket">〔</span>
+              <span id="display-recipient" class="text-recipient">뭉치자 여러분!</span>
+              <span class="decor-bracket">〕</span>
+            </div>
+
+            <h1 class="main-title" id="display-title">
+              풍요롭고 따뜻한 한가위
+            </h1>
+
+            <div class="message-body" id="display-message">
+              올 한가위에는 보름달 아래<br>
+              다 함께 모여 맛있는 송편도 나누고<br>
+              풍성하고 따뜻한 이야기꽃을 피우는 즐거운 한가위되세요!!
+            </div>
+
+            <div class="sender-tag">
+              <span class="text-sender" id="display-sender">마음을 담아 드림</span>
+              <span class="traditional-stamp">秋夕</span>
+            </div>
           </div>
 
-          <h1 class="main-title" id="display-title">
-            풍요롭고 따뜻한 한가위
-          </h1>
-
-          <div class="message-body" id="display-message">
-            올 한가위에는 보름달 아래<br>
-            다 함께 모여 맛있는 송편도 나누고<br>
-            풍성하고 따뜻한 이야기꽃을 피우는 즐거운 한가위되세요!!
-          </div>
-
-          <div class="sender-tag">
-            <span class="text-sender" id="display-sender">마음을 담아 드림</span>
-            <span class="traditional-stamp">秋夕</span>
+          <!-- 변신하는 황금 소원 풍등 (Lantern) -->
+          <div class="morph-lantern" id="morph-lantern">
+            <div class="lantern-outer-glow"></div>
+            <div class="lantern-frame">
+              <div class="lantern-flame"></div>
+              <div class="lantern-content">
+                <span class="lantern-text">뭉치자<br>여러분!</span>
+              </div>
+            </div>
+            <div class="lantern-tassel"></div>
           </div>
         </div>
 

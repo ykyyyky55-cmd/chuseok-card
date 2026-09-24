@@ -126,7 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => addLantern("풍요로운 한가위"), 1500);
   setTimeout(() => addLantern("뭉치자 여러분 행복기원"), 5000);
 
-  // (4) 인터랙티브 클릭 스파클 파티클
+  // (4) 인터랙티브 클릭 스파클 파티클 및 풍등 트레일
+  const morphLantern = document.getElementById('morph-lantern');
+  let lastTrailTime = 0;
   const sparkles = [];
   function addSparkles(x, y, count = 12) {
     for (let i = 0; i < count; i++) {
@@ -297,6 +299,30 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.shadowColor = sp.color;
       ctx.fill();
       ctx.restore();
+    }
+
+    // [5] 승천하는 모핑 풍등의 황금 별빛 트레일 파티클
+    if (morphLantern && time - lastTrailTime > 80) {
+      const mStyle = window.getComputedStyle(morphLantern);
+      const mOpacity = parseFloat(mStyle.opacity);
+      if (mOpacity > 0.25) {
+        const cardRect = cardElement.getBoundingClientRect();
+        const mRect = morphLantern.getBoundingClientRect();
+        const mx = mRect.left + mRect.width / 2 - cardRect.left;
+        const my = mRect.top + mRect.height * 0.75 - cardRect.top;
+        if (my > -40 && my < height + 40) {
+          sparkles.push({
+            x: mx + (Math.random() - 0.5) * 22,
+            y: my + (Math.random() - 0.5) * 10,
+            vx: (Math.random() - 0.5) * 0.9,
+            vy: Math.random() * 0.9 + 0.4,
+            size: Math.random() * 3.2 + 1.2,
+            alpha: 0.95,
+            color: Math.random() > 0.35 ? '#fef08a' : '#f59e0b'
+          });
+          lastTrailTime = time;
+        }
+      }
     }
 
     animFrameId = requestAnimationFrame(render);
