@@ -23,12 +23,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const displaySender = document.getElementById('display-sender');
 
   // 툴바 버튼
+  const btnReplayGate = document.getElementById('btn-replay-gate');
   const btnBgm = document.getElementById('btn-bgm');
   const bgmIcon = document.getElementById('bgm-icon');
   const bgmLabel = document.getElementById('bgm-label');
   const btnWish = document.getElementById('btn-wish');
   const btnSave = document.getElementById('btn-save');
   const btnKakao = document.getElementById('btn-kakao');
+
+  // 대문 및 어린이 인트로 요소
+  const hanokGateOverlay = document.getElementById('hanok-gate-overlay');
+  const btnOpenGate = document.getElementById('btn-open-gate');
+  const boyCharacter = document.querySelector('.boy-character');
+  const girlCharacter = document.querySelector('.girl-character');
 
   // 모달 요소 (소원 빌기 전용)
   const modalWish = document.getElementById('modal-wish');
@@ -581,8 +588,54 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================
-  // 8. 카드 고화질 이미지(PNG) 저장 기능
+  // 7. [씬 1] 한옥 대문 열기 및 가야금 배경음악 즉시 재생
   // ==========================================
+  function openHanokGate() {
+    if (!hanokGateOverlay || hanokGateOverlay.classList.contains('opened')) return;
+
+    // 1. 남녀 어린이 정중한 깊은 절 모션
+    if (boyCharacter) boyCharacter.classList.add('deep-bow');
+    if (girlCharacter) girlCharacter.classList.add('deep-bow');
+
+    // 2. 가야금 맑은 차임 효과음
+    playChimeSound();
+
+    setTimeout(() => {
+      // 3. 대문 좌우 3D 회전 개방
+      hanokGateOverlay.classList.add('opened');
+
+      // 4. 문이 열리자마자 신명나는 가야금 배경음악 즉시 재생!
+      if (!isMusicPlaying) {
+        toggleMusic();
+      }
+
+      showToast("🌸 어서오세요! 뭉치자 여러분 풍요로운 한가위 되세요 🌕");
+    }, 420);
+  }
+
+  function replayHanokGate() {
+    if (!hanokGateOverlay) return;
+    if (boyCharacter) boyCharacter.classList.remove('deep-bow');
+    if (girlCharacter) girlCharacter.classList.remove('deep-bow');
+    hanokGateOverlay.classList.remove('opened');
+    showToast("한옥 대문 인트로를 다시 감상합니다.");
+  }
+
+  if (btnOpenGate) {
+    btnOpenGate.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openHanokGate();
+    });
+  }
+
+  if (hanokGateOverlay) {
+    hanokGateOverlay.addEventListener('click', openHanokGate);
+  }
+
+  if (btnReplayGate) {
+    btnReplayGate.addEventListener('click', replayHanokGate);
+  }
+
   // ==========================================
   // 8. 카드 고화질 이미지(PNG) 생성 및 카톡 전송
   // ==========================================
