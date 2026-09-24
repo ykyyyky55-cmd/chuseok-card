@@ -27,58 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const bgmIcon = document.getElementById('bgm-icon');
   const bgmLabel = document.getElementById('bgm-label');
   const btnWish = document.getElementById('btn-wish');
-  const btnEdit = document.getElementById('btn-edit');
   const btnSave = document.getElementById('btn-save');
   const btnKakao = document.getElementById('btn-kakao');
 
-  // 모달 요소
+  // 모달 요소 (소원 빌기 전용)
   const modalWish = document.getElementById('modal-wish');
   const inputWishText = document.getElementById('input-wish-text');
   const btnCloseWish = document.getElementById('btn-close-wish');
   const btnCancelWish = document.getElementById('btn-cancel-wish');
   const btnSendWish = document.getElementById('btn-send-wish');
 
-  const modalEdit = document.getElementById('modal-edit');
-  const editRecipient = document.getElementById('edit-recipient');
-  const editTitle = document.getElementById('edit-title');
-  const editMessage = document.getElementById('edit-message');
-  const editSender = document.getElementById('edit-sender');
-  const btnCloseEdit = document.getElementById('btn-close-edit');
-  const btnCancelEdit = document.getElementById('btn-cancel-edit');
-  const btnApplyEdit = document.getElementById('btn-apply-edit');
-
   const toastMessage = document.getElementById('toast-message');
-  const presetButtons = document.querySelectorAll('.btn-preset');
-
-  // ==========================================
-  // 2. 추천 인사말 프리셋 데이터 ('뭉치자 여러분' 특화)
-  // ==========================================
-  const PRESETS = {
-    1: {
-      recipient: "뭉치자 여러분!",
-      title: "풍요롭고 따뜻한 한가위",
-      message: "올 한가위에는 보름달 아래\n다 함께 모여 맛있는 송편도 나누고\n풍성하고 따뜻한 이야기꽃을 피우는 즐거운 한가위되세요!!",
-      sender: "함께하는 마음을 담아 드림"
-    },
-    2: {
-      recipient: "뭉치자 여러분!",
-      title: "마음까지 넉넉한 한가위",
-      message: "둥근 보름달처럼 마음까지 가득 찬 따스하고 넉넉한 한가위 보내세요. 곁에 있는 소중한 사람들과 더없이 행복한 시간 되시길 바랍니다.",
-      sender: "따뜻한 정을 담아 드림"
-    },
-    3: {
-      recipient: "뭉치자 여러분!",
-      title: "소원 성취하는 한가위",
-      message: "환하게 떠오른 한가위 보름달에 소원 빌고, 올 한 해 바라는 모든 일들이 술술 풀리길 힘차게 응원합니다.",
-      sender: "한결같은 응원을 담아 드림"
-    },
-    4: {
-      recipient: "뭉치자 여러분!",
-      title: "늘 건강하고 평안하시길",
-      message: "보름달의 온화한 빛이 언제나 앞길을 비추길 바라며, 건강과 평안이 깃드는 풍요롭고 복된 명절 되시기를 진심으로 기원합니다.",
-      sender: "건강과 평안을 빌며 드림"
-    }
-  };
 
   // ==========================================
   // 3. 토스트 알림 헬퍼
@@ -368,23 +327,70 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // 5. Web Audio API 사운드 신시사이저 (한국 전통 펜타토닉 가야금/오르골)
   // ==========================================
+  // ==========================================
+  // 5. Web Audio API 기반 정통 가야금 사운드 신시사이저 & 밝은 한가위 축제 가락
+  // ==========================================
   let audioCtx = null;
   let isMusicPlaying = false;
   let musicTimer = null;
   let noteIndex = 0;
 
-  // 한국 전통 5음계 (궁상각치우 기반 Eb 펜타토닉 arpeggio)
-  // Eb4, F4, G4, Bb4, C5, Eb5, F5, G5, Bb5, C6
-  const FREQS = [311.13, 349.23, 392.00, 466.16, 523.25, 622.25, 698.46, 783.99, 932.33, 1046.50];
+  // 가야금 전통 12현 음계 (D-F-G-A-C 펜타토닉 음계: 베이스 현부터 고음 현까지)
+  const GAYA_FREQS = {
+    // 저음현 (베이스 현: 묵직한 명주실 울림)
+    'D3': 146.83,
+    'F3': 174.61,
+    'G3': 196.00,
+    'A3': 220.00,
+    'C4': 261.63,
+    // 중음현 (주선율 현)
+    'D4': 293.66,
+    'F4': 349.23,
+    'G4': 392.00,
+    'A4': 440.00,
+    'C5': 523.25,
+    // 고음현 (청아하고 맑은 장식현)
+    'D5': 587.33,
+    'F5': 698.46,
+    'G5': 783.99,
+    'A5': 880.00,
+    'C6': 1046.50
+  };
 
-  // 포근한 가을 달빛 아리랑 변주 멜로디 시퀀스
-  const MELODY_SEQUENCE = [
-    { note: 2, dur: 0.45 }, { note: 3, dur: 0.45 }, { note: 4, dur: 0.8 },
-    { note: 3, dur: 0.45 }, { note: 4, dur: 0.45 }, { note: 5, dur: 0.9 },
-    { note: 7, dur: 0.5 },  { note: 6, dur: 0.45 }, { note: 5, dur: 0.5 }, { note: 4, dur: 0.8 },
-    { note: 3, dur: 0.45 }, { note: 2, dur: 0.45 }, { note: 1, dur: 0.9 },
-    { note: 0, dur: 0.45 }, { note: 1, dur: 0.45 }, { note: 2, dur: 0.75 }, { note: 3, dur: 0.45 },
-    { note: 4, dur: 1.2 }
+  // 밝고 흥겨운 한가위 풍년 축제 가락 (경쾌한 자진모리 장단 느낌: 128 BPM)
+  // "얼씨구 좋다! 풍년이 왔네, 뭉치자 여러분 즐거운 한가위로구나!"
+  const GAYAGEUM_MELODY = [
+    // [1] 흥겨운 도입: 둥- 당- 동당동당 (베이스 현과 함께 경쾌한 시작)
+    { note: 'D5', bass: 'D3', dur: 0.22, nong: false },
+    { note: 'C5', bass: null, dur: 0.20, nong: false },
+    { note: 'A4', bass: null, dur: 0.40, nong: true },  // 농현
+    { note: 'F4', bass: 'F3', dur: 0.22, nong: false },
+    { note: 'G4', bass: null, dur: 0.20, nong: false },
+    { note: 'A4', bass: null, dur: 0.42, nong: true },
+
+    // [2] 신명나는 고음 상승: 따단- 딴딴 딴!
+    { note: 'C5', bass: 'A3', dur: 0.22, nong: false },
+    { note: 'D5', bass: null, dur: 0.20, nong: false },
+    { note: 'F5', bass: null, dur: 0.35, nong: true },
+    { note: 'G5', bass: 'D3', dur: 0.24, nong: false }, // 화사한 고음
+    { note: 'A5', bass: null, dur: 0.46, nong: true },  // 시원하게 뻗는 최고음
+    { note: 'G5', bass: null, dur: 0.22, nong: false },
+
+    // [3] 또르륵 경쾌하게 굴러내려오는 핑거링
+    { note: 'F5', bass: 'F3', dur: 0.22, nong: false },
+    { note: 'D5', bass: null, dur: 0.20, nong: false },
+    { note: 'C5', bass: null, dur: 0.22, nong: false },
+    { note: 'A4', bass: 'A3', dur: 0.35, nong: true },
+    { note: 'G4', bass: null, dur: 0.20, nong: false },
+    { note: 'F4', bass: null, dur: 0.22, nong: false },
+    { note: 'G4', bass: 'G3', dur: 0.42, nong: true },
+
+    // [4] 얼씨구 좋다! 신명나는 맺음과 도약
+    { note: 'A4', bass: null, dur: 0.22, nong: false },
+    { note: 'C5', bass: null, dur: 0.22, nong: false },
+    { note: 'D5', bass: 'D3', dur: 0.44, nong: true },
+    { note: 'C5', bass: null, dur: 0.22, nong: false },
+    { note: 'D5', bass: 'D3', dur: 0.65, nong: true }   // 풍성한 긴 여운
   ];
 
   function initAudio() {
@@ -397,52 +403,96 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 맑은 가야금/오르골 톤 합성 함수
-  function playNote(freq, duration = 0.8, volume = 0.18) {
+  // 진짜 가야금(명주실 + 오동나무 울림통 + 손가락 플럭 + 농현) 사운드 합성
+  function playGayageumPluck(freq, duration = 0.5, volume = 0.24, hasNonghyeon = false) {
     if (!audioCtx) return;
     const now = audioCtx.currentTime;
 
-    // 메인 오실레이터 (Triangle for warm string tone)
-    const osc1 = audioCtx.createOscillator();
-    osc1.type = 'triangle';
-    osc1.frequency.setValueAtTime(freq, now);
+    // 1. 배음 풍부한 메인 톱니파 (명주실의 칼칼하고 앙칼진 현 울림)
+    const oscSaw = audioCtx.createOscillator();
+    oscSaw.type = 'sawtooth';
+    oscSaw.frequency.setValueAtTime(freq, now);
 
-    // 하모닉 배음 오실레이터 (Sine for crystal resonance)
-    const osc2 = audioCtx.createOscillator();
-    osc2.type = 'sine';
-    osc2.frequency.setValueAtTime(freq * 2, now);
+    // 2. 따뜻한 기본음 삼각파 (현의 굵기와 기본 톤)
+    const oscTri = audioCtx.createOscillator();
+    oscTri.type = 'triangle';
+    oscTri.frequency.setValueAtTime(freq, now);
 
-    // 게인(엔벨로프)
+    // 농현 (Nonghyeon: 가야금 왼손 줄 누름 - 음정의 깊고 찰진 흔들림)
+    if (hasNonghyeon && duration > 0.3) {
+      const vibStart = now + 0.1;
+      const vibPeak = now + 0.22;
+      oscSaw.frequency.setValueAtTime(freq, vibStart);
+      oscSaw.frequency.linearRampToValueAtTime(freq * 1.032, vibPeak);
+      oscSaw.frequency.linearRampToValueAtTime(freq * 0.99, vibPeak + 0.1);
+      oscSaw.frequency.linearRampToValueAtTime(freq, now + duration);
+
+      oscTri.frequency.setValueAtTime(freq, vibStart);
+      oscTri.frequency.linearRampToValueAtTime(freq * 1.032, vibPeak);
+      oscTri.frequency.linearRampToValueAtTime(freq * 0.99, vibPeak + 0.1);
+      oscTri.frequency.linearRampToValueAtTime(freq, now + duration);
+    }
+
+    // 3. 오동나무 울림통 공명 대역 필터 (Resonant Lowpass Filter)
+    const bodyFilter = audioCtx.createBiquadFilter();
+    bodyFilter.type = 'lowpass';
+    bodyFilter.frequency.setValueAtTime(2800, now);
+    bodyFilter.frequency.exponentialRampToValueAtTime(750, now + 0.14);
+    bodyFilter.Q.setValueAtTime(2.8, now); // 안족(줄받침) 공명 피크
+
+    // 4. 게인 엔벨로프 (손끝 뜯김: 4ms의 찰나 어택 + 자연스러운 지수 감쇠)
     const gainNode = audioCtx.createGain();
-    gainNode.gain.setValueAtTime(0.001, now);
-    gainNode.gain.linearRampToValueAtTime(volume, now + 0.02); // 튀지 않는 빠른 어택
-    gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+    gainNode.gain.setValueAtTime(0.0001, now);
+    gainNode.gain.linearRampToValueAtTime(volume, now + 0.005);
+    gainNode.gain.exponentialRampToValueAtTime(volume * 0.35, now + 0.1);
+    gainNode.gain.exponentialRampToValueAtTime(0.00001, now + duration + 0.1);
 
-    // 배음 게인
-    const harmonicGain = audioCtx.createGain();
-    harmonicGain.gain.setValueAtTime(0.001, now);
-    harmonicGain.gain.linearRampToValueAtTime(volume * 0.4, now + 0.015);
-    harmonicGain.gain.exponentialRampToValueAtTime(0.0001, now + duration * 0.7);
+    // 5. 손톱 튕김 펄스 (Finger Pluck Transient Noise)
+    const pluckOsc = audioCtx.createOscillator();
+    const pluckGain = audioCtx.createGain();
+    pluckOsc.type = 'triangle';
+    pluckOsc.frequency.setValueAtTime(freq * 3.5, now);
+    pluckOsc.frequency.exponentialRampToValueAtTime(120, now + 0.025);
+    pluckGain.gain.setValueAtTime(volume * 0.5, now);
+    pluckGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
 
-    osc1.connect(gainNode);
-    osc2.connect(harmonicGain);
+    pluckOsc.connect(pluckGain);
+    pluckGain.connect(bodyFilter);
+
+    oscSaw.connect(bodyFilter);
+    oscTri.connect(bodyFilter);
+    bodyFilter.connect(gainNode);
     gainNode.connect(audioCtx.destination);
-    harmonicGain.connect(audioCtx.destination);
 
-    osc1.start(now);
-    osc2.start(now);
-    osc1.stop(now + duration);
-    osc2.stop(now + duration);
+    oscSaw.start(now);
+    oscTri.start(now);
+    pluckOsc.start(now);
+
+    const stopTime = now + duration + 0.15;
+    oscSaw.stop(stopTime);
+    oscTri.stop(stopTime);
+    pluckOsc.stop(now + 0.03);
   }
 
-  // 멜로디 루프
+  // 멜로디 루프 스케줄러 (경쾌한 가야금 합주)
   function scheduleNextNote() {
     if (!isMusicPlaying) return;
-    const current = MELODY_SEQUENCE[noteIndex];
-    playNote(FREQS[current.note], current.dur * 1.5, 0.15);
+    const item = GAYAGEUM_MELODY[noteIndex];
+    const freq = GAYA_FREQS[item.note] || 440;
 
-    noteIndex = (noteIndex + 1) % MELODY_SEQUENCE.length;
-    const stepTime = current.dur * 1000 + 120;
+    // 메인 주선율 가야금 타현
+    playGayageumPluck(freq, item.dur * 1.6, 0.24, item.nong);
+
+    // 강박(Downbeat)에 저음 베이스 현 둥- 울려주기
+    if (item.bass && GAYA_FREQS[item.bass]) {
+      const bassFreq = GAYA_FREQS[item.bass];
+      setTimeout(() => {
+        playGayageumPluck(bassFreq, 0.7, 0.28, false);
+      }, 8);
+    }
+
+    noteIndex = (noteIndex + 1) % GAYAGEUM_MELODY.length;
+    const stepTime = item.dur * 1000 + 40;
     musicTimer = setTimeout(scheduleNextNote, stepTime);
   }
 
@@ -451,65 +501,38 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isMusicPlaying) {
       isMusicPlaying = false;
       if (musicTimer) clearTimeout(musicTimer);
-      bgmIcon.textContent = '🎵';
-      bgmLabel.textContent = '음악 켜기';
+      bgmIcon.textContent = '🎶';
+      bgmLabel.textContent = '가야금 켜기';
       btnBgm.classList.remove('active');
-      showToast('배경음악이 정지되었습니다.');
+      showToast('가야금 연주가 정지되었습니다.');
     } else {
       isMusicPlaying = true;
-      bgmIcon.textContent = '🎶';
-      bgmLabel.textContent = '음악 끄기';
+      bgmIcon.textContent = '✨';
+      bgmLabel.textContent = '연주 끄기';
       btnBgm.classList.add('active');
       scheduleNextNote();
-      showToast('따스한 가야금 선율이 흐릅니다.');
+      showToast('🌸 신명나는 한가위 가야금 가락이 울립니다!');
     }
   }
 
-  // 소원 빌기 시 맑은 윈드차임 효과음
+  // 소원 빌기 시 맑고 깊은 국악 종/가야금 울림
   function playChimeSound() {
     initAudio();
     if (!audioCtx) return;
-    const chimePitches = [783.99, 1046.50, 1318.51, 1567.98];
-    chimePitches.forEach((p, idx) => {
+    const chimeNotes = ['A4', 'C5', 'F5', 'A5'];
+    chimeNotes.forEach((noteName, idx) => {
       setTimeout(() => {
-        playNote(p, 1.4, 0.12);
-      }, idx * 110);
+        const freq = GAYA_FREQS[noteName] || 440;
+        playGayageumPluck(freq, 1.4, 0.18, true);
+      }, idx * 100);
     });
   }
 
   btnBgm.addEventListener('click', toggleMusic);
 
   // ==========================================
-  // 6. 인사말 프리셋 변경
+  // 6. 소원 빌기 모달 열기/닫기
   // ==========================================
-  presetButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      presetButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const presetId = btn.getAttribute('data-preset');
-      const data = PRESETS[presetId];
-      if (data) {
-        displayRecipient.textContent = data.recipient;
-        displayTitle.textContent = data.title;
-        displayMessage.innerHTML = data.message.replace(/\n/g, '<br>');
-        displaySender.textContent = data.sender;
-
-        // 에디트 폼에도 동기화
-        editRecipient.value = data.recipient;
-        editTitle.value = data.title;
-        editMessage.value = data.message;
-        editSender.value = data.sender;
-
-        showToast(`인사말이 변경되었습니다.`);
-      }
-    });
-  });
-
-  // ==========================================
-  // 7. 모달 열기/닫기 및 동작
-  // ==========================================
-  // 소원 모달
   btnWish.addEventListener('click', () => {
     modalWish.classList.add('open');
     inputWishText.focus();
@@ -526,36 +549,9 @@ document.addEventListener('DOMContentLoaded', () => {
     showToast("소원 풍등이 하늘로 띄워졌습니다! 🏮");
   });
 
-  // 문구 수정 모달
-  btnEdit.addEventListener('click', () => {
-    modalEdit.classList.add('open');
-  });
-  btnCloseEdit.addEventListener('click', () => modalEdit.classList.remove('open'));
-  btnCancelEdit.addEventListener('click', () => modalEdit.classList.remove('open'));
-
-  btnApplyEdit.addEventListener('click', () => {
-    const r = editRecipient.value.trim() || "뭉치자 여러분!";
-    const t = editTitle.value.trim() || "풍요로운 한가위";
-    const m = editMessage.value.trim() || "풍성한 한가위 보내세요.";
-    const s = editSender.value.trim() || "마음을 담아 드림";
-
-    displayRecipient.textContent = r;
-    displayTitle.textContent = t;
-    displayMessage.innerHTML = m.replace(/\n/g, '<br>');
-    displaySender.textContent = s;
-
-    // 프리셋 버튼 active 제거 (커스텀 상태 표시)
-    presetButtons.forEach(b => b.classList.remove('active'));
-
-    modalEdit.classList.remove('open');
-    showToast("카드의 인사말이 수정되었습니다!");
-  });
-
   // 모달 바깥 배경 클릭 시 닫기
-  [modalWish, modalEdit].forEach(m => {
-    m.addEventListener('click', (e) => {
-      if (e.target === m) m.classList.remove('open');
-    });
+  modalWish.addEventListener('click', (e) => {
+    if (e.target === modalWish) modalWish.classList.remove('open');
   });
 
   // ==========================================
