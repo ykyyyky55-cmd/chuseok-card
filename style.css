@@ -612,6 +612,45 @@ body {
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+  transform: translateY(115px) scale(0.72);
+  opacity: 0.2;
+  filter: brightness(0.65);
+  transition: transform 0.5s ease;
+}
+
+/* 문 열림 시: 보름달이 밤하늘로 장엄하게 떠오름 (Moon Rise) */
+.moon-section.moon-risen,
+.hanok-gate-overlay.opened ~ .moon-section {
+  animation: moon-rise 3.2s cubic-bezier(0.22, 1, 0.36, 1) forwards, moon-gentle-float 6s ease-in-out infinite alternate 3.2s;
+}
+
+@keyframes moon-rise {
+  0% {
+    transform: translateY(115px) scale(0.72);
+    opacity: 0.2;
+    filter: brightness(0.65) drop-shadow(0 0 10px rgba(253, 224, 71, 0.2));
+  }
+  35% {
+    opacity: 0.85;
+  }
+  75% {
+    transform: translateY(-8px) scale(1.03);
+    filter: brightness(1.08) drop-shadow(0 0 50px rgba(253, 224, 71, 0.9));
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: brightness(1) drop-shadow(0 0 35px rgba(253, 224, 71, 0.7));
+  }
+}
+
+@keyframes moon-gentle-float {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    transform: translateY(-6px) scale(1.01);
+  }
 }
 
 /* 달빛 아우라 */
@@ -874,23 +913,23 @@ body {
 /* 1. 래퍼: 하단에서 화면 중앙(달빛 아래)으로 천천히 상승 */
 @keyframes ascend-wrapper-cycle {
   0% {
-    transform: translateY(65px);
+    transform: translateY(32px);
   }
   /* 천천히 위로 중간 지점까지 올라옴 (약 7초 소요) */
   38% {
-    transform: translateY(-45px);
+    transform: translateY(-62px);
   }
   48% {
-    transform: translateY(-55px);
+    transform: translateY(-72px);
   }
   85% {
-    transform: translateY(-55px);
+    transform: translateY(-72px);
   }
   92% {
-    transform: translateY(65px);
+    transform: translateY(32px);
   }
   100% {
-    transform: translateY(65px);
+    transform: translateY(32px);
   }
 }
 
@@ -1052,6 +1091,67 @@ body {
   font-weight: 700;
   background: rgba(220, 38, 38, 0.15);
   box-shadow: 0 0 6px rgba(220, 38, 38, 0.4);
+}
+
+/* ================= 6-2. 툇마루 & 달을 바라보는 남녀 어린이 씬 ================= */
+.maru-scene {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 175px;
+  z-index: 6;
+  pointer-events: none;
+  filter: drop-shadow(0 -5px 18px rgba(0, 0, 0, 0.65));
+}
+
+.maru-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* 마루에 앉은 남녀 어린이(도령과 아씨) 달맞이 숨쉬기 모션 */
+.maru-kids-group {
+  transform-origin: 248px 115px;
+  animation: maru-kids-gaze 4.6s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 12px rgba(254, 240, 138, 0.35));
+}
+
+@keyframes maru-kids-gaze {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-2.5px) rotate(-0.5deg);
+  }
+  100% {
+    transform: translateY(-4px) rotate(0.6deg);
+  }
+}
+
+/* 툇마루 송편 소반 모락모락 온기 */
+.steam-dot {
+  animation: steam-rise 2.6s ease-out infinite;
+}
+
+.steam-2 {
+  animation-delay: 1.3s;
+}
+
+@keyframes steam-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.6);
+  }
+  40% {
+    opacity: 0.85;
+    transform: translateY(-5px) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-13px) scale(1.4);
+  }
 }
 
 /* ================= 7. 하단 한옥 기와 풍경 ================= */
@@ -1360,5 +1460,9 @@ body {
   .persimmon-branch {
     width: 170px;
     height: 135px;
+  }
+
+  .maru-scene {
+    height: 148px;
   }
 }

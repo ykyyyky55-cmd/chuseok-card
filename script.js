@@ -604,7 +604,15 @@ document.addEventListener('DOMContentLoaded', () => {
       // 3. 대문 좌우 3D 회전 개방
       hanokGateOverlay.classList.add('opened');
 
-      // 4. 문이 열리자마자 신명나는 가야금 배경음악 즉시 재생!
+      // 4. 보름달 서서히 솟아오름 (Moon Rise)
+      const moonSection = document.getElementById('moon-section');
+      if (moonSection) {
+        moonSection.classList.remove('moon-risen');
+        void moonSection.offsetWidth; // 리플로우 강제하여 애니메이션 재시작 보장
+        moonSection.classList.add('moon-risen');
+      }
+
+      // 5. 문이 열리자마자 신명나는 가야금 배경음악 즉시 재생!
       if (!isMusicPlaying) {
         toggleMusic();
       }
@@ -618,6 +626,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (boyCharacter) boyCharacter.classList.remove('deep-bow');
     if (girlCharacter) girlCharacter.classList.remove('deep-bow');
     hanokGateOverlay.classList.remove('opened');
+
+    const moonSection = document.getElementById('moon-section');
+    if (moonSection) {
+      moonSection.classList.remove('moon-risen');
+    }
+
     showToast("한옥 대문 인트로를 다시 감상합니다.");
   }
 
@@ -826,26 +840,177 @@ document.addEventListener('DOMContentLoaded', () => {
     drawPersimmon(W - 350, 210);
     eCtx.restore();
 
-    // [7] 하단 한옥 기와지붕 실루엣
+    // [7] 하단 한옥 툇마루 및 달을 바라보는 남녀 어린이 정경
     eCtx.save();
-    const roofGrad = eCtx.createLinearGradient(0, H - 220, 0, H);
-    roofGrad.addColorStop(0, '#1e293b');
-    roofGrad.addColorStop(1, '#090d16');
-    eCtx.fillStyle = roofGrad;
+    const maruY = H - 225;
+    const maruH = 155;
+    // 툇마루 바닥
+    const maruGrad = eCtx.createLinearGradient(0, maruY, 0, maruY + maruH);
+    maruGrad.addColorStop(0, '#7c2d12');
+    maruGrad.addColorStop(0.35, '#602107');
+    maruGrad.addColorStop(1, '#290b01');
+    eCtx.fillStyle = maruGrad;
+    eCtx.fillRect(36, maruY, W - 72, maruH);
 
+    // 마루 상단 달빛 림 라인
+    eCtx.strokeStyle = 'rgba(254, 240, 138, 0.45)';
+    eCtx.lineWidth = 3;
     eCtx.beginPath();
-    eCtx.moveTo(0, H);
-    eCtx.lineTo(0, H - 120);
-    eCtx.quadraticCurveTo(W * 0.25, H - 130, W * 0.42, H);
-    eCtx.lineTo(0, H);
+    eCtx.moveTo(36, maruY); eCtx.lineTo(W - 36, maruY);
+    eCtx.stroke();
+
+    // 널판 틈새 라인
+    eCtx.strokeStyle = '#250b01';
+    eCtx.lineWidth = 2.5;
+    eCtx.beginPath();
+    eCtx.moveTo(36, maruY + 48); eCtx.lineTo(W - 36, maruY + 48);
+    eCtx.moveTo(36, maruY + 98); eCtx.lineTo(W - 36, maruY + 98);
+    eCtx.stroke();
+
+    // 좌우 목조 기둥
+    const pillarGrad = eCtx.createLinearGradient(0, 0, 40, 0);
+    pillarGrad.addColorStop(0, '#582405');
+    pillarGrad.addColorStop(0.6, '#3d1803');
+    pillarGrad.addColorStop(1, '#240c01');
+    eCtx.fillStyle = pillarGrad;
+    eCtx.fillRect(36, maruY - 80, 32, maruH + 110);
+    eCtx.fillRect(W - 68, maruY - 80, 32, maruH + 110);
+
+    // 디딤돌 (화강석 댓돌)
+    const stoneGrad = eCtx.createLinearGradient(0, H - 75, 0, H - 45);
+    stoneGrad.addColorStop(0, '#64748b');
+    stoneGrad.addColorStop(0.5, '#475569');
+    stoneGrad.addColorStop(1, '#1e293b');
+    eCtx.fillStyle = stoneGrad;
+    eCtx.beginPath();
+    eCtx.ellipse(W / 2, H - 55, 140, 24, 0, 0, Math.PI * 2);
     eCtx.fill();
 
+    // 신발들 (태사혜 & 꽃신)
+    // 남아 태사혜
+    eCtx.fillStyle = '#0f172a';
+    eCtx.beginPath(); eCtx.ellipse(W / 2 - 55, H - 57, 16, 10, 0, 0, Math.PI * 2); eCtx.fill();
+    eCtx.beginPath(); eCtx.ellipse(W / 2 - 25, H - 57, 16, 10, 0, 0, Math.PI * 2); eCtx.fill();
+    eCtx.strokeStyle = '#f8fafc';
+    eCtx.lineWidth = 2.5;
     eCtx.beginPath();
-    eCtx.moveTo(W, H);
-    eCtx.lineTo(W, H - 120);
-    eCtx.quadraticCurveTo(W * 0.75, H - 130, W * 0.58, H);
-    eCtx.lineTo(W, H);
+    eCtx.arc(W / 2 - 55, H - 57, 10, 0.2, Math.PI - 0.2);
+    eCtx.arc(W / 2 - 25, H - 57, 10, 0.2, Math.PI - 0.2);
+    eCtx.stroke();
+
+    // 여아 꽃신
+    eCtx.fillStyle = '#e11d48';
+    eCtx.beginPath(); eCtx.ellipse(W / 2 + 25, H - 57, 16, 10, 0, 0, Math.PI * 2); eCtx.fill();
+    eCtx.beginPath(); eCtx.ellipse(W / 2 + 55, H - 57, 16, 10, 0, 0, Math.PI * 2); eCtx.fill();
+    eCtx.fillStyle = '#fef08a';
+    eCtx.beginPath(); eCtx.arc(W / 2 + 37, H - 57, 3.5, 0, Math.PI * 2); eCtx.fill();
+    eCtx.beginPath(); eCtx.arc(W / 2 + 67, H - 57, 3.5, 0, Math.PI * 2); eCtx.fill();
+
+    // 마루에 앉아 달을 올려다보는 남녀 어린이
+    // 남아 (도령)
+    const boyX = W / 2 - 95;
+    const boyY = maruY + 12;
+    // 하체 버선
+    eCtx.fillStyle = '#f8fafc';
+    eCtx.fillRect(boyX - 25, boyY + 45, 20, 45);
+    eCtx.fillRect(boyX + 5, boyY + 45, 20, 45);
+    // 도포/쾌자
+    eCtx.fillStyle = '#1e3a8a';
+    eCtx.beginPath();
+    eCtx.moveTo(boyX - 42, boyY - 35);
+    eCtx.lineTo(boyX + 42, boyY - 35);
+    eCtx.lineTo(boyX + 48, boyY + 50);
+    eCtx.lineTo(boyX - 48, boyY + 50);
+    eCtx.closePath();
     eCtx.fill();
+    // 하늘색 소매
+    eCtx.fillStyle = '#38bdf8';
+    eCtx.beginPath(); eCtx.ellipse(boyX - 45, boyY + 10, 14, 25, 0.3, 0, Math.PI * 2); eCtx.fill();
+    eCtx.beginPath(); eCtx.ellipse(boyX + 45, boyY + 10, 14, 25, -0.3, 0, Math.PI * 2); eCtx.fill();
+    // 손
+    eCtx.fillStyle = '#fde68a';
+    eCtx.beginPath(); eCtx.arc(boyX - 52, boyY + 30, 8, 0, Math.PI * 2); eCtx.fill();
+    eCtx.beginPath(); eCtx.arc(boyX + 45, boyY + 28, 8, 0, Math.PI * 2); eCtx.fill();
+    // 머리 & 볼터치
+    eCtx.fillStyle = '#fef3c7';
+    eCtx.beginPath(); eCtx.ellipse(boyX, boyY - 65, 25, 28, 0, 0, Math.PI * 2); eCtx.fill();
+    eCtx.fillStyle = '#fda4af';
+    eCtx.beginPath(); eCtx.ellipse(boyX + 16, boyY - 60, 6, 4, 0, 0, Math.PI * 2); eCtx.fill();
+    // 검은 복건
+    eCtx.fillStyle = '#0f172a';
+    eCtx.beginPath();
+    eCtx.arc(boyX - 2, boyY - 78, 28, 0.8 * Math.PI, 2.2 * Math.PI);
+    eCtx.fill();
+    eCtx.lineWidth = 8;
+    eCtx.strokeStyle = '#0f172a';
+    eCtx.beginPath();
+    eCtx.moveTo(boyX - 16, boyY - 70);
+    eCtx.quadraticCurveTo(boyX - 30, boyY - 20, boyX - 35, boyY + 20);
+    eCtx.stroke();
+
+    // 여아 (아씨)
+    const girlX = W / 2 + 85;
+    const girlY = maruY + 12;
+    // 다홍치마
+    eCtx.fillStyle = '#e11d48';
+    eCtx.beginPath();
+    eCtx.moveTo(girlX - 40, girlY - 15);
+    eCtx.lineTo(girlX + 40, girlY - 15);
+    eCtx.quadraticCurveTo(girlX + 75, girlY + 60, girlX + 60, girlY + 65);
+    eCtx.lineTo(girlX - 60, girlY + 65);
+    eCtx.quadraticCurveTo(girlX - 75, girlY + 60, girlX - 40, girlY - 15);
+    eCtx.fill();
+    // 저고리
+    eCtx.fillStyle = '#fef08a';
+    eCtx.fillRect(girlX - 35, girlY - 45, 70, 35);
+    // 색동 소매
+    eCtx.fillStyle = '#f472b6';
+    eCtx.beginPath(); eCtx.ellipse(girlX - 42, girlY - 18, 14, 22, -0.2, 0, Math.PI * 2); eCtx.fill();
+    eCtx.beginPath(); eCtx.ellipse(girlX + 42, girlY - 18, 14, 22, 0.2, 0, Math.PI * 2); eCtx.fill();
+    // 손
+    eCtx.fillStyle = '#fde68a';
+    eCtx.beginPath(); eCtx.arc(girlX - 45, girlY, 7, 0, Math.PI * 2); eCtx.fill();
+    eCtx.beginPath(); eCtx.arc(girlX + 45, girlY, 7, 0, Math.PI * 2); eCtx.fill();
+    // 머리 & 댕기머리
+    eCtx.fillStyle = '#fef3c7';
+    eCtx.beginPath(); eCtx.ellipse(girlX, girlY - 68, 25, 27, 0, 0, Math.PI * 2); eCtx.fill();
+    eCtx.fillStyle = '#fda4af';
+    eCtx.beginPath(); eCtx.ellipse(girlX - 16, girlY - 63, 6, 4, 0, 0, Math.PI * 2); eCtx.fill();
+    // 머리카락 & 배씨댕기
+    eCtx.fillStyle = '#1e1b4b';
+    eCtx.beginPath(); eCtx.arc(girlX, girlY - 80, 27, 0.8 * Math.PI, 2.2 * Math.PI); eCtx.fill();
+    eCtx.lineWidth = 10;
+    eCtx.strokeStyle = '#1e1b4b';
+    eCtx.beginPath();
+    eCtx.moveTo(girlX + 18, girlY - 70);
+    eCtx.quadraticCurveTo(girlX + 32, girlY - 20, girlX + 28, girlY + 20);
+    eCtx.stroke();
+    // 붉은 댕기
+    eCtx.fillStyle = '#dc2626';
+    eCtx.beginPath();
+    eCtx.moveTo(girlX + 28, girlY + 12);
+    eCtx.lineTo(girlX + 38, girlY + 45);
+    eCtx.lineTo(girlX + 18, girlY + 45);
+    eCtx.closePath();
+    eCtx.fill();
+    eCtx.fillStyle = '#dc2626';
+    eCtx.beginPath(); eCtx.arc(girlX, girlY - 104, 6, 0, Math.PI * 2); eCtx.fill();
+
+    // 송편 소반
+    const sobanX = W - 180;
+    const sobanY = maruY + 15;
+    eCtx.fillStyle = '#582405';
+    eCtx.beginPath(); eCtx.ellipse(sobanX, sobanY, 40, 12, 0, 0, Math.PI * 2); eCtx.fill();
+    eCtx.fillStyle = '#f8fafc';
+    eCtx.beginPath(); eCtx.ellipse(sobanX, sobanY - 6, 30, 8, 0, 0, Math.PI * 2); eCtx.fill();
+    // 송편알
+    eCtx.fillStyle = '#15803d';
+    eCtx.beginPath(); eCtx.ellipse(sobanX - 14, sobanY - 9, 9, 6, 0, 0, Math.PI * 2); eCtx.fill();
+    eCtx.fillStyle = '#f43f5e';
+    eCtx.beginPath(); eCtx.ellipse(sobanX + 14, sobanY - 9, 9, 6, 0, 0, Math.PI * 2); eCtx.fill();
+    eCtx.fillStyle = '#facc15';
+    eCtx.beginPath(); eCtx.ellipse(sobanX, sobanY - 13, 9, 6, 0, 0, Math.PI * 2); eCtx.fill();
+
     eCtx.restore();
 
     // [8] 텍스트 렌더링 (호칭, 타이틀, 메시지, 서명)
@@ -857,14 +1022,14 @@ document.addEventListener('DOMContentLoaded', () => {
     eCtx.shadowColor = 'rgba(0, 0, 0, 0.9)';
     eCtx.shadowBlur = 10;
     const recipientText = `〔 ${displayRecipient.textContent} 〕`;
-    eCtx.fillText(recipientText, W / 2, H * 0.61);
+    eCtx.fillText(recipientText, W / 2, H * 0.52);
 
     // 2) 메인 타이틀
     eCtx.font = '800 58px "Nanum Myeongjo", serif';
     eCtx.fillStyle = '#fffbeb';
     eCtx.shadowBlur = 20;
     eCtx.shadowColor = 'rgba(253, 224, 71, 0.7)';
-    eCtx.fillText(displayTitle.textContent, W / 2, H * 0.69);
+    eCtx.fillText(displayTitle.textContent, W / 2, H * 0.59);
     eCtx.shadowBlur = 0;
 
     // 3) 인사말 본문 (줄바꿈 처리)
@@ -874,8 +1039,8 @@ document.addEventListener('DOMContentLoaded', () => {
     eCtx.shadowBlur = 8;
     const rawMsg = displayMessage.innerHTML.replace(/<br\s*[\/]?>/gi, '\n');
     const msgLines = rawMsg.split('\n');
-    let startY = H * 0.76;
-    const lineHeight = 54;
+    let startY = H * 0.655;
+    const lineHeight = 46;
     msgLines.forEach(line => {
       const cleanLine = line.replace(/<[^>]*>?/gm, '').trim();
       if (cleanLine) {
@@ -885,7 +1050,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 4) 보내는 분 & 도장
-    const senderY = H * 0.90;
+    const senderY = H * 0.775;
     eCtx.font = '600 28px "Nanum Myeongjo", serif';
     eCtx.fillStyle = '#cbd5e1';
     const senderText = displaySender.textContent;
