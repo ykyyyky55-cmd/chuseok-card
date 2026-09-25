@@ -464,50 +464,101 @@
             <!-- 달 속 달토끼 실루엣 & 떡방아 애니메이션 -->
             <div class="rabbit-scene">
               <svg viewBox="0 0 160 140" class="rabbit-svg" xmlns="http://www.w3.org/2000/svg">
-                <!-- 절구 (Mortar) -->
-                <path d="M 85,95 Q 85,82 92,80 L 128,80 Q 135,82 135,95 Q 135,120 125,128 L 95,128 Q 85,120 85,95 Z" fill="#3a405a" opacity="0.85"/>
-                <ellipse cx="110" cy="80" rx="18" ry="5" fill="#2d3246"/>
-                <!-- 절구 속 반죽 (찰떡) -->
-                <ellipse cx="110" cy="81" rx="12" ry="4" fill="#f1f5f9" class="rice-cake"/>
+                <defs>
+                  <radialGradient id="rb-fur" cx="40%" cy="35%" r="70%">
+                    <stop offset="0%" stop-color="#ffffff"/>
+                    <stop offset="70%" stop-color="#f7f4fb"/>
+                    <stop offset="100%" stop-color="#e2dbee"/>
+                  </radialGradient>
+                  <linearGradient id="rb-ear" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#ffc2d1"/>
+                    <stop offset="100%" stop-color="#ff9fb8"/>
+                  </linearGradient>
+                  <linearGradient id="rb-wood" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#6b3a1f"/>
+                    <stop offset="45%" stop-color="#a8683d"/>
+                    <stop offset="100%" stop-color="#5e3219"/>
+                  </linearGradient>
+                  <radialGradient id="rb-blush">
+                    <stop offset="0%" stop-color="#ff8fa8" stop-opacity="0.9"/>
+                    <stop offset="100%" stop-color="#ff8fa8" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+
+                <!-- 나무 절구 -->
+                <path d="M 86,86 L 134,86 Q 134,112 126,126 L 94,126 Q 86,112 86,86 Z" fill="url(#rb-wood)"/>
+                <path d="M 88,100 Q 110,104 132,100" stroke="#4a2511" stroke-width="2" fill="none" opacity="0.6"/>
+                <path d="M 91,114 Q 110,118 129,114" stroke="#4a2511" stroke-width="2" fill="none" opacity="0.6"/>
+                <rect x="92" y="124" width="36" height="6" rx="3" fill="#4a2511"/>
+                <ellipse cx="110" cy="86" rx="25" ry="7" fill="#7a4424"/>
+                <ellipse cx="110" cy="86" rx="20" ry="5" fill="#3d1d0c"/>
+                <!-- 절구 속 말랑한 찰떡 -->
+                <ellipse cx="110" cy="85" rx="16" ry="5.5" fill="#fbfaf6" class="rice-cake"/>
+                <ellipse cx="105" cy="83.5" rx="5" ry="1.6" fill="#ffffff"/>
                 <!-- 쿵덕 쿵덕 떡 파티클 팝 효과 -->
                 <g class="rice-pop">
-                  <circle cx="106" cy="74" r="2.5" fill="#f8fafc"/>
-                  <circle cx="114" cy="73" r="2" fill="#f8fafc"/>
-                  <circle cx="110" cy="70" r="1.8" fill="#f8fafc"/>
+                  <circle cx="104" cy="76" r="2.6" fill="#ffffff"/>
+                  <circle cx="115" cy="75" r="2.1" fill="#ffffff"/>
+                  <circle cx="110" cy="71" r="1.8" fill="#ffffff"/>
                 </g>
 
                 <!-- 달토끼 (Moon Rabbit) -->
                 <g class="rabbit-body-group">
-                  <!-- 꼬리 -->
-                  <circle cx="28" cy="115" r="7" fill="#e2e8f0" opacity="0.9"/>
-                  <!-- 몸통 (다소곳이 앉은 토끼) -->
-                  <ellipse cx="50" cy="108" rx="20" ry="16" fill="#e2e8f0" opacity="0.95"/>
-                  <!-- 뒷다리 -->
-                  <ellipse cx="38" cy="116" rx="12" ry="8" fill="#cbd5e1" opacity="0.95"/>
-                  <!-- 앞가슴/목 -->
-                  <ellipse cx="62" cy="95" rx="13" ry="12" fill="#e2e8f0" opacity="0.95"/>
-                  <!-- 머리 -->
-                  <circle cx="68" cy="80" r="12" fill="#f1f5f9"/>
+                  <!-- 복슬복슬 꼬리 -->
+                  <circle cx="30" cy="112" r="7.5" fill="url(#rb-fur)" stroke="#d6cce6" stroke-width="0.8"/>
+                  <!-- 통통한 몸 -->
+                  <ellipse cx="52" cy="110" rx="22" ry="18.5" fill="url(#rb-fur)" stroke="#d6cce6" stroke-width="0.8"/>
+                  <ellipse cx="55" cy="114" rx="11" ry="9" fill="#ffffff" opacity="0.8"/>
+                  <!-- 동글동글 발 -->
+                  <ellipse cx="40" cy="127" rx="9" ry="4.8" fill="url(#rb-fur)" stroke="#d6cce6" stroke-width="0.8"/>
+                  <ellipse cx="62" cy="128" rx="9" ry="4.8" fill="url(#rb-fur)" stroke="#d6cce6" stroke-width="0.8"/>
+                  <ellipse cx="62" cy="128.5" rx="3" ry="1.6" fill="#ffc2d1"/>
+
+                  <!-- 귀: 한쪽은 쫑긋, 한쪽은 살짝 접힘 -->
+                  <g class="rabbit-ear-back">
+                    <path d="M50,58 C40,40 38,20 45,14 C52,10 58,30 58,56 Z" fill="url(#rb-fur)" stroke="#d6cce6" stroke-width="0.8"/>
+                    <path d="M51,54 C44,40 43,24 47,20 C51,18 54,34 55,52 Z" fill="url(#rb-ear)"/>
+                  </g>
+                  <g class="rabbit-ear-flop">
+                    <path d="M64,56 C62,40 64,26 71,20 C77,15 85,20 90,32 C92,37 91,41 88,40 C85,36 81,32 78,31 C75,38 73,48 72,57 Z" fill="url(#rb-fur)" stroke="#d6cce6" stroke-width="0.8"/>
+                    <path d="M66.5,53 C65.5,40 67,29 72,25 C75,23 78,25 79,28 C76,33 74,42 70,54 Z" fill="url(#rb-ear)"/>
+                  </g>
+
+                  <!-- 큰 머리 -->
+                  <circle cx="62" cy="73" r="20" fill="url(#rb-fur)" stroke="#d6cce6" stroke-width="0.8"/>
+                  <!-- 반짝이는 눈 (깜빡임) -->
+                  <g class="rabbit-eyes">
+                    <ellipse cx="58" cy="72" rx="3.3" ry="4.2" fill="#2b1d25"/>
+                    <ellipse cx="72" cy="72" rx="3.3" ry="4.2" fill="#2b1d25"/>
+                    <circle cx="57" cy="70.4" r="1.4" fill="#ffffff"/>
+                    <circle cx="71" cy="70.4" r="1.4" fill="#ffffff"/>
+                    <circle cx="59.2" cy="74" r="0.6" fill="#ffffff"/>
+                    <circle cx="73.2" cy="74" r="0.6" fill="#ffffff"/>
+                  </g>
                   <!-- 볼터치 -->
-                  <ellipse cx="73" cy="84" rx="2.5" ry="1.8" fill="#fda4af" opacity="0.7"/>
-                  <!-- 귀 2개 (쫑긋) -->
-                  <path d="M63,73 C55,50 63,40 68,46 C73,52 69,68 67,73 Z" fill="#f1f5f9"/>
-                  <path d="M65,70 C59,53 64,46 67,50 C70,54 68,66 67,70 Z" fill="#fbcfe8" opacity="0.6"/>
-                  <path d="M70,74 C70,48 79,41 82,47 C85,53 77,69 74,74 Z" fill="#f1f5f9"/>
-                  <path d="M71,71 C72,51 78,46 80,50 C82,54 76,67 74,71 Z" fill="#fbcfe8" opacity="0.6"/>
-                  <!-- 눈 -->
-                  <ellipse cx="74" cy="79" rx="1.5" ry="2" fill="#334155"/>
-                  <circle cx="74.5" cy="78.5" r="0.6" fill="#ffffff"/>
+                  <ellipse cx="52" cy="79" rx="5.5" ry="3.4" fill="url(#rb-blush)"/>
+                  <ellipse cx="78" cy="79" rx="5.5" ry="3.4" fill="url(#rb-blush)"/>
+                  <!-- 분홍 코 & ω 입 -->
+                  <path d="M63.4,77 L66.6,77 L65,79 Z" fill="#ff8fa8"/>
+                  <path d="M62,80.5 Q63.5,82.5 65,80.5 Q66.5,82.5 68,80.5" stroke="#b86a80" stroke-width="1" fill="none" stroke-linecap="round"/>
+                  <!-- 목에 맨 빨간 리본 -->
+                  <path d="M58,93 L52,89 L52,97 Z" fill="#e5484d"/>
+                  <path d="M66,93 L72,89 L72,97 Z" fill="#e5484d"/>
+                  <circle cx="62" cy="93" r="2.6" fill="#c9303c"/>
                 </g>
 
                 <!-- 토끼 팔 & 방아공이 (Pestle - 회전 애니메이션) -->
                 <g class="pestle-arm-group" id="pestle-arm">
-                  <!-- 팔 -->
-                  <path d="M68,96 Q80,95 86,88" stroke="#f1f5f9" stroke-width="7" stroke-linecap="round"/>
                   <!-- 방아공이 자루 -->
-                  <line x1="83" y1="94" x2="108" y2="52" stroke="#d97706" stroke-width="4.5" stroke-linecap="round"/>
+                  <line x1="80" y1="98" x2="106" y2="52" stroke="#c98a4b" stroke-width="4.5" stroke-linecap="round"/>
+                  <line x1="81" y1="95" x2="104" y2="55" stroke="#e7b37a" stroke-width="1.3" stroke-linecap="round"/>
                   <!-- 방아공이 머리 -->
-                  <ellipse cx="110" cy="52" rx="6" ry="12" transform="rotate(-30 110 52)" fill="#b45309"/>
+                  <ellipse cx="108" cy="50" rx="7" ry="13" transform="rotate(-30 108 50)" fill="#9a5a2e"/>
+                  <ellipse cx="106" cy="47" rx="2.5" ry="7" transform="rotate(-30 106 47)" fill="#c98a4b" opacity="0.7"/>
+                  <!-- 팔 & 자루를 꼭 쥔 앞발 -->
+                  <path d="M64,98 Q74,99 81,92" stroke="#f3eff9" stroke-width="7.5" stroke-linecap="round" fill="none"/>
+                  <circle cx="82.5" cy="91.5" r="4.6" fill="url(#rb-fur)" stroke="#d6cce6" stroke-width="0.8"/>
+                  <circle cx="88" cy="82.8" r="4.2" fill="url(#rb-fur)" stroke="#d6cce6" stroke-width="0.8"/>
                 </g>
               </svg>
             </div>
