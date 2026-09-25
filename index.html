@@ -103,41 +103,126 @@
               <!-- 남자 어린이 (도령) -->
               <div class="child-character boy-character">
                 <svg viewBox="0 0 130 170" class="child-svg" xmlns="http://www.w3.org/2000/svg">
-                  <!-- 복건 뒤 댕기 리본 -->
-                  <path d="M42,50 Q30,85 24,120" stroke="#0f172a" stroke-width="8" stroke-linecap="round"/>
-                  <path d="M46,55 Q35,90 30,125" stroke="#0f172a" stroke-width="7" stroke-linecap="round"/>
-                  <!-- 몸통 (쾌자/두루마기) -->
-                  <path d="M40,90 L90,90 L98,150 L32,150 Z" fill="#1e3a8a"/>
-                  <path d="M48,90 L82,90 L88,150 L42,150 Z" fill="#0284c7"/>
-                  <!-- 바지 & 신발 -->
-                  <path d="M38,145 L58,145 L56,160 L36,160 Z" fill="#f8fafc"/>
-                  <path d="M72,145 L92,145 L94,160 L74,160 Z" fill="#f8fafc"/>
-                  <ellipse cx="46" cy="162" rx="10" ry="4" fill="#0f172a"/>
-                  <ellipse cx="84" cy="162" rx="10" ry="4" fill="#0f172a"/>
-                  <!-- 소매 -->
-                  <path d="M38,90 Q22,110 32,122 Q45,115 50,105 Z" fill="#38bdf8"/>
-                  <path d="M92,90 Q108,110 98,122 Q85,115 80,105 Z" fill="#38bdf8"/>
+                  <defs>
+                    <radialGradient id="gb-skin" cx="45%" cy="40%" r="65%">
+                      <stop offset="0%" stop-color="#fff3e8"/>
+                      <stop offset="70%" stop-color="#ffdcc4"/>
+                      <stop offset="100%" stop-color="#f3bf9c"/>
+                    </radialGradient>
+                    <radialGradient id="gb-blush">
+                      <stop offset="0%" stop-color="#ff8fa3" stop-opacity="0.8"/>
+                      <stop offset="100%" stop-color="#ff8fa3" stop-opacity="0"/>
+                    </radialGradient>
+                    <linearGradient id="gb-eye" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#1a0f0a"/>
+                      <stop offset="100%" stop-color="#6b4430"/>
+                    </linearGradient>
+                    <linearGradient id="gb-hat" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#3b4058"/>
+                      <stop offset="55%" stop-color="#1c1f2e"/>
+                      <stop offset="100%" stop-color="#0e1018"/>
+                    </linearGradient>
+                    <linearGradient id="gb-vest" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#172f73"/>
+                      <stop offset="50%" stop-color="#2b55bd"/>
+                      <stop offset="100%" stop-color="#172f73"/>
+                    </linearGradient>
+                    <clipPath id="gb-sleeve-l"><path d="M50,88 C38,92 32,104 36,118 Q46,122 60,116 L62,108 Q56,98 54,90 Z"/></clipPath>
+                    <clipPath id="gb-sleeve-r"><path d="M80,88 C92,92 98,104 94,118 Q84,122 70,116 L68,108 Q74,98 76,90 Z"/></clipPath>
+                  </defs>
+
+                  <!-- 복건 뒤로 늘어진 끈 -->
+                  <path d="M44,50 C36,70 34,92 30,112 L38,114 C42,94 46,72 50,54 Z" fill="#1c1f2e"/>
+                  <path d="M50,52 C46,74 44,96 42,116 L49,116 C50,96 53,74 56,54 Z" fill="#11131d"/>
+
+                  <!-- 바지 & 대님 & 태사혜 -->
+                  <path d="M42,136 L63,136 L62,155 L44,155 Z" fill="#f4efe4"/>
+                  <path d="M67,136 L88,136 L86,155 L68,155 Z" fill="#ebe4d6"/>
+                  <rect x="44" y="150" width="18" height="3" rx="1" fill="#9aa7c7"/>
+                  <rect x="68" y="150" width="18" height="3" rx="1" fill="#9aa7c7"/>
+                  <path d="M42,158 Q42,153 50,153 L58,154 Q64,156 62,160 Q52,162 44,161 Z" fill="#1a1a24"/>
+                  <path d="M88,158 Q88,153 80,153 L72,154 Q66,156 68,160 Q78,162 86,161 Z" fill="#1a1a24"/>
+                  <path d="M44,156 Q52,153.5 60,156" stroke="#f5f5f5" stroke-width="1.2" fill="none"/>
+                  <path d="M86,156 Q78,153.5 70,156" stroke="#f5f5f5" stroke-width="1.2" fill="none"/>
+
+                  <!-- 저고리 몸판 (옥색) -->
+                  <path d="M48,86 Q65,82 82,86 L84,122 L46,122 Z" fill="#bfe6cf"/>
+                  <!-- 쾌자 (남색 조끼형 겉옷) -->
+                  <path d="M48,86 L62,92 L60,146 Q46,148 34,144 Z" fill="url(#gb-vest)" stroke="#132a66" stroke-width="1"/>
+                  <path d="M82,86 L68,92 L70,146 Q84,148 96,144 Z" fill="url(#gb-vest)" stroke="#132a66" stroke-width="1"/>
+                  <!-- 붉은 전대 (허리띠) -->
+                  <path d="M36,108 Q65,114 94,108 L94,114 Q65,120 36,114 Z" fill="#d8343f"/>
+                  <path d="M62,118 L58,140 L63,140 L65,120 Z" fill="#b8232d"/>
+                  <path d="M68,118 L72,138 L67,138 L65,120 Z" fill="#c0262f"/>
+
+                  <!-- 깃 & 흰 동정 -->
+                  <path d="M54,84 L65,100 L76,84" stroke="#3b2a7a" stroke-width="6" fill="none" stroke-linejoin="round"/>
+                  <path d="M55,83 L65,97 L75,83" stroke="#ffffff" stroke-width="2.4" fill="none" stroke-linejoin="round"/>
+
+                  <!-- 색동 소매 -->
+                  <g clip-path="url(#gb-sleeve-l)">
+                    <rect x="28" y="84" width="40" height="40" fill="#fbf6ec"/>
+                    <rect x="28" y="88" width="40" height="5" fill="#e5484d"/>
+                    <rect x="28" y="93" width="40" height="5" fill="#f7c948"/>
+                    <rect x="28" y="98" width="40" height="5" fill="#3fae6a"/>
+                    <rect x="28" y="103" width="40" height="5" fill="#f38bb3"/>
+                    <rect x="28" y="108" width="40" height="5" fill="#4f7fd9"/>
+                    <rect x="28" y="113" width="40" height="11" fill="#fbf6ec"/>
+                  </g>
+                  <g clip-path="url(#gb-sleeve-r)">
+                    <rect x="62" y="84" width="40" height="40" fill="#fbf6ec"/>
+                    <rect x="62" y="88" width="40" height="5" fill="#e5484d"/>
+                    <rect x="62" y="93" width="40" height="5" fill="#f7c948"/>
+                    <rect x="62" y="98" width="40" height="5" fill="#3fae6a"/>
+                    <rect x="62" y="103" width="40" height="5" fill="#f38bb3"/>
+                    <rect x="62" y="108" width="40" height="5" fill="#4f7fd9"/>
+                    <rect x="62" y="113" width="40" height="11" fill="#fbf6ec"/>
+                  </g>
+
                   <!-- 공수 모은 손 -->
-                  <ellipse cx="65" cy="112" rx="15" ry="9" fill="#fde68a"/>
-                  <path d="M52,110 Q65,116 78,110" stroke="#d97706" stroke-width="1.8" fill="none"/>
-                  <!-- 흰 동정 (목깃) -->
-                  <polygon points="65,92 56,76 74,76" fill="#ffffff"/>
+                  <ellipse cx="61" cy="115" rx="6" ry="5" fill="url(#gb-skin)"/>
+                  <ellipse cx="69" cy="115" rx="6" ry="5" fill="url(#gb-skin)"/>
+                  <path d="M65,111 L65,119" stroke="#e8a987" stroke-width="1" stroke-linecap="round"/>
+
+                  <!-- 목 -->
+                  <rect x="60" y="82" width="10" height="7" fill="#f3bf9c"/>
+
+                  <!-- 귀 -->
+                  <ellipse cx="38" cy="66" rx="5.5" ry="7" fill="#ffdcc4"/>
+                  <ellipse cx="38.5" cy="66" rx="2.5" ry="4" fill="#f0b08e"/>
+                  <ellipse cx="92" cy="66" rx="5.5" ry="7" fill="#ffdcc4"/>
+                  <ellipse cx="91.5" cy="66" rx="2.5" ry="4" fill="#f0b08e"/>
                   <!-- 얼굴 -->
-                  <ellipse cx="65" cy="62" rx="22" ry="20" fill="#fef3c7"/>
-                  <ellipse cx="43" cy="63" rx="4" ry="6" fill="#fef3c7"/>
-                  <ellipse cx="87" cy="63" rx="4" ry="6" fill="#fef3c7"/>
-                  <!-- 눈 (^ ^) -->
-                  <path d="M52,60 Q57,55 62,60" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-                  <path d="M68,60 Q73,55 78,60" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+                  <ellipse cx="65" cy="64" rx="27" ry="25" fill="url(#gb-skin)"/>
+                  <!-- 옆머리 -->
+                  <path d="M38,58 Q40,70 43,72 L44,56 Z" fill="#2a1c16"/>
+                  <path d="M92,58 Q90,70 87,72 L86,56 Z" fill="#2a1c16"/>
+
+                  <!-- 복건 -->
+                  <path d="M35,60 C32,36 46,24 65,24 C84,24 98,36 95,60 C90,52 80,48 65,48 C50,48 40,52 35,60 Z" fill="url(#gb-hat)"/>
+                  <path d="M52,30 Q65,20 78,30 Q65,26 52,30 Z" fill="#2c3044"/>
+                  <path d="M44,40 Q55,30 66,30" stroke="rgba(255,255,255,0.2)" stroke-width="3" fill="none" stroke-linecap="round"/>
+                  <path d="M36,58 C42,50 52,47 65,47 C78,47 88,50 94,58" stroke="#0a0b12" stroke-width="1.5" fill="none"/>
+                  <!-- 앞머리 -->
+                  <path d="M50,48 Q55,54 60,49 Q65,55 70,49 Q75,54 80,48 Z" fill="#2a1c16"/>
+
+                  <!-- 눈썹 -->
+                  <path d="M49,55 Q54,53 58,55" stroke="#3a2a22" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.55"/>
+                  <path d="M72,55 Q76,53 81,55" stroke="#3a2a22" stroke-width="1.6" fill="none" stroke-linecap="round" opacity="0.55"/>
+                  <!-- 반짝이는 큰 눈 -->
+                  <ellipse cx="54" cy="65" rx="4.3" ry="5.2" fill="url(#gb-eye)"/>
+                  <ellipse cx="76" cy="65" rx="4.3" ry="5.2" fill="url(#gb-eye)"/>
+                  <circle cx="52.6" cy="63" r="1.7" fill="#ffffff"/>
+                  <circle cx="55.5" cy="67.5" r="0.8" fill="#ffffff"/>
+                  <circle cx="74.6" cy="63" r="1.7" fill="#ffffff"/>
+                  <circle cx="77.5" cy="67.5" r="0.8" fill="#ffffff"/>
                   <!-- 볼터치 -->
-                  <ellipse cx="50" cy="67" rx="5" ry="3" fill="#fda4af" opacity="0.8"/>
-                  <ellipse cx="80" cy="67" rx="5" ry="3" fill="#fda4af" opacity="0.8"/>
-                  <!-- 입 -->
-                  <path d="M61,68 Q65,72 69,68" stroke="#e11d48" stroke-width="2" stroke-linecap="round" fill="none"/>
-                  <!-- 전통 복건 (검은 모자) -->
-                  <path d="M42,56 C40,32 50,22 65,22 C80,22 90,32 88,56 C80,48 50,48 42,56 Z" fill="#0f172a"/>
-                  <path d="M44,52 Q65,46 86,52" stroke="#facc15" stroke-width="2.5" fill="none"/>
-                  <circle cx="65" cy="48" r="3" fill="#ef4444"/>
+                  <ellipse cx="46" cy="73" rx="7" ry="4.5" fill="url(#gb-blush)"/>
+                  <ellipse cx="84" cy="73" rx="7" ry="4.5" fill="url(#gb-blush)"/>
+                  <!-- 코 & 웃는 입 -->
+                  <path d="M63.5,71 Q65,72.5 66.5,71" stroke="#e0a080" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                  <path d="M60,76 Q65,82 70,76 Q65,77.5 60,76 Z" fill="#b83250"/>
+                  <path d="M62.5,78.6 Q65,80.8 67.5,78.6 Q65,79.2 62.5,78.6 Z" fill="#ff7a8a"/>
                 </svg>
                 <div class="character-shadow"></div>
               </div>
@@ -145,42 +230,133 @@
               <!-- 여자 어린이 (아씨) -->
               <div class="child-character girl-character">
                 <svg viewBox="0 0 130 170" class="child-svg" xmlns="http://www.w3.org/2000/svg">
-                  <!-- 땋은 댕기머리 -->
-                  <path d="M88,55 Q100,90 98,130" stroke="#1e1b4b" stroke-width="9" stroke-linecap="round"/>
-                  <polygon points="98,125 106,145 92,145" fill="#dc2626"/>
-                  <!-- 풍성한 다홍치마 -->
-                  <path d="M48,94 L82,94 L102,152 L28,152 Z" fill="#e11d48"/>
-                  <path d="M48,94 Q65,97 82,94 L96,152 Q65,155 34,152 Z" fill="#f43f5e"/>
-                  <ellipse cx="52" cy="154" rx="8" ry="3.5" fill="#ffffff"/>
-                  <ellipse cx="78" cy="154" rx="8" ry="3.5" fill="#ffffff"/>
-                  <!-- 색동저고리 -->
-                  <path d="M48,76 L82,76 L84,95 L46,95 Z" fill="#fef08a"/>
-                  <path d="M63,88 Q61,110 58,125" stroke="#831843" stroke-width="3.5" stroke-linecap="round"/>
-                  <path d="M66,88 Q68,105 70,118" stroke="#831843" stroke-width="3" stroke-linecap="round"/>
+                  <defs>
+                    <radialGradient id="gg-skin" cx="45%" cy="40%" r="65%">
+                      <stop offset="0%" stop-color="#fff3e8"/>
+                      <stop offset="70%" stop-color="#ffdcc4"/>
+                      <stop offset="100%" stop-color="#f3bf9c"/>
+                    </radialGradient>
+                    <radialGradient id="gg-blush">
+                      <stop offset="0%" stop-color="#ff8fa3" stop-opacity="0.85"/>
+                      <stop offset="100%" stop-color="#ff8fa3" stop-opacity="0"/>
+                    </radialGradient>
+                    <linearGradient id="gg-eye" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#1a0f0a"/>
+                      <stop offset="100%" stop-color="#6b4430"/>
+                    </linearGradient>
+                    <linearGradient id="gg-hair" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#3a2820"/>
+                      <stop offset="100%" stop-color="#1c120d"/>
+                    </linearGradient>
+                    <linearGradient id="gg-chima" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#d91e45"/>
+                      <stop offset="45%" stop-color="#ff5d78"/>
+                      <stop offset="100%" stop-color="#c8183d"/>
+                    </linearGradient>
+                    <linearGradient id="gg-jeo" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#ffe680"/>
+                      <stop offset="100%" stop-color="#f5c330"/>
+                    </linearGradient>
+                    <clipPath id="gg-sleeve-l"><path d="M48,84 C36,88 30,100 34,112 Q44,116 58,110 L60,102 Q54,94 52,86 Z"/></clipPath>
+                    <clipPath id="gg-sleeve-r"><path d="M82,84 C94,88 100,100 96,112 Q86,116 72,110 L70,102 Q76,94 78,86 Z"/></clipPath>
+                  </defs>
+
+                  <!-- 뒷머리 & 땋은 댕기머리 -->
+                  <ellipse cx="65" cy="60" rx="29" ry="28" fill="url(#gg-hair)"/>
+                  <ellipse cx="88" cy="80" rx="4.5" ry="6" fill="#2a1c16" stroke="#3d2a20" stroke-width="0.8"/>
+                  <ellipse cx="90" cy="90" rx="4.5" ry="6" fill="#2a1c16" stroke="#3d2a20" stroke-width="0.8"/>
+                  <ellipse cx="91" cy="100" rx="4.3" ry="6" fill="#2a1c16" stroke="#3d2a20" stroke-width="0.8"/>
+                  <ellipse cx="91" cy="110" rx="4" ry="5.5" fill="#2a1c16" stroke="#3d2a20" stroke-width="0.8"/>
+                  <ellipse cx="90.5" cy="119" rx="3.6" ry="5" fill="#2a1c16" stroke="#3d2a20" stroke-width="0.8"/>
+                  <path d="M86,122 L95,122 L98,141 L91,136 L85,142 Z" fill="#d62839"/>
+                  <circle cx="90.5" cy="128" r="1.3" fill="#ffd166"/>
+                  <circle cx="91" cy="133" r="1" fill="#ffd166"/>
+
+                  <!-- 다홍치마 -->
+                  <path d="M46,96 Q65,92 84,96 C92,116 100,136 104,152 Q65,160 26,152 C30,136 38,116 46,96 Z" fill="url(#gg-chima)"/>
+                  <path d="M52,100 Q46,126 40,153" stroke="#b8123a" stroke-width="1.2" fill="none" opacity="0.5"/>
+                  <path d="M60,100 Q58,128 56,156" stroke="#b8123a" stroke-width="1.2" fill="none" opacity="0.5"/>
+                  <path d="M70,100 Q72,128 74,156" stroke="#b8123a" stroke-width="1.2" fill="none" opacity="0.5"/>
+                  <path d="M78,100 Q84,126 90,153" stroke="#b8123a" stroke-width="1.2" fill="none" opacity="0.5"/>
+                  <path d="M27,151 Q65,159 103,151" stroke="#ffd166" stroke-width="2" fill="none"/>
+                  <!-- 꽃신 -->
+                  <ellipse cx="54" cy="157" rx="8" ry="3.8" fill="#ff7aa2"/>
+                  <ellipse cx="76" cy="157" rx="8" ry="3.8" fill="#ff7aa2"/>
+                  <circle cx="58" cy="156" r="1.5" fill="#ffd166"/>
+                  <circle cx="80" cy="156" r="1.5" fill="#ffd166"/>
+
+                  <!-- 노랑 저고리 몸판 -->
+                  <path d="M47,84 Q65,80 83,84 L85,100 Q65,104 45,100 Z" fill="url(#gg-jeo)"/>
+                  <!-- 자주 깃 & 흰 동정 -->
+                  <path d="M56,82 L65,94 L74,82" stroke="#7b2d8e" stroke-width="5" fill="none" stroke-linejoin="round"/>
+                  <path d="M57,81 L65,91 L73,81" stroke="#ffffff" stroke-width="2.2" fill="none" stroke-linejoin="round"/>
+                  <!-- 옷고름 -->
+                  <ellipse cx="60" cy="95" rx="3" ry="2.2" fill="#c2185b"/>
+                  <path d="M59,95 Q57,110 54,124 L58,124 Q60,110 62,96 Z" fill="#c2185b"/>
+                  <path d="M62,95 Q64,108 66,120 L69,119 Q66,106 64,95 Z" fill="#ad1457"/>
+
                   <!-- 색동 소매 -->
-                  <path d="M48,78 Q30,95 38,114 Q46,110 52,98 Z" fill="#f472b6"/>
-                  <path d="M44,83 Q33,96 39,110" stroke="#fde047" stroke-width="3" fill="none"/>
-                  <path d="M42,88 Q35,99 41,107" stroke="#34d399" stroke-width="3" fill="none"/>
-                  <path d="M82,78 Q100,95 92,114 Q84,110 78,98 Z" fill="#f472b6"/>
-                  <path d="M86,83 Q97,96 91,110" stroke="#fde047" stroke-width="3" fill="none"/>
-                  <path d="M88,88 Q95,99 89,107" stroke="#34d399" stroke-width="3" fill="none"/>
+                  <g clip-path="url(#gg-sleeve-l)">
+                    <rect x="26" y="80" width="40" height="40" fill="#fbf6ec"/>
+                    <rect x="26" y="84" width="40" height="5" fill="#e5484d"/>
+                    <rect x="26" y="89" width="40" height="5" fill="#f7c948"/>
+                    <rect x="26" y="94" width="40" height="5" fill="#3fae6a"/>
+                    <rect x="26" y="99" width="40" height="5" fill="#f38bb3"/>
+                    <rect x="26" y="104" width="40" height="5" fill="#4f7fd9"/>
+                    <rect x="26" y="109" width="40" height="11" fill="#a23b72"/>
+                  </g>
+                  <g clip-path="url(#gg-sleeve-r)">
+                    <rect x="64" y="80" width="40" height="40" fill="#fbf6ec"/>
+                    <rect x="64" y="84" width="40" height="5" fill="#e5484d"/>
+                    <rect x="64" y="89" width="40" height="5" fill="#f7c948"/>
+                    <rect x="64" y="94" width="40" height="5" fill="#3fae6a"/>
+                    <rect x="64" y="99" width="40" height="5" fill="#f38bb3"/>
+                    <rect x="64" y="104" width="40" height="5" fill="#4f7fd9"/>
+                    <rect x="64" y="109" width="40" height="11" fill="#a23b72"/>
+                  </g>
+
                   <!-- 공수 모은 손 -->
-                  <ellipse cx="65" cy="106" rx="14" ry="8.5" fill="#fde68a"/>
-                  <polygon points="65,88 57,74 73,74" fill="#ffffff"/>
+                  <ellipse cx="61" cy="110" rx="5.5" ry="4.8" fill="url(#gg-skin)"/>
+                  <ellipse cx="69" cy="110" rx="5.5" ry="4.8" fill="url(#gg-skin)"/>
+                  <path d="M65,106.5 L65,113.5" stroke="#e8a987" stroke-width="1" stroke-linecap="round"/>
+
+                  <!-- 목 -->
+                  <rect x="60" y="80" width="10" height="6" fill="#f3bf9c"/>
+
                   <!-- 얼굴 -->
-                  <ellipse cx="65" cy="58" rx="21" ry="19" fill="#fef3c7"/>
-                  <ellipse cx="44" cy="59" rx="3.5" ry="5.5" fill="#fef3c7"/>
-                  <ellipse cx="86" cy="59" rx="3.5" ry="5.5" fill="#fef3c7"/>
-                  <path d="M53,56 Q58,51 63,56" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-                  <path d="M67,56 Q72,51 77,56" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-                  <ellipse cx="51" cy="63" rx="5" ry="3" fill="#fda4af" opacity="0.85"/>
-                  <ellipse cx="79" cy="63" rx="5" ry="3" fill="#fda4af" opacity="0.85"/>
-                  <path d="M62,64 Q65,68 68,64" stroke="#e11d48" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-                  <!-- 배씨댕기 머리 -->
-                  <path d="M44,52 C44,32 54,26 65,26 C76,26 86,32 86,52 C78,42 67,46 65,48 C63,46 52,42 44,52 Z" fill="#1e1b4b"/>
-                  <circle cx="65" cy="30" r="5" fill="#dc2626"/>
-                  <circle cx="65" cy="30" r="2.5" fill="#facc15"/>
-                  <path d="M60,33 Q65,36 70,33" stroke="#e11d48" stroke-width="2" fill="none"/>
+                  <ellipse cx="65" cy="62" rx="25" ry="24" fill="url(#gg-skin)"/>
+                  <!-- 가르마 앞머리 & 옆머리 -->
+                  <path d="M38,64 C36,40 48,30 65,30 C82,30 94,40 92,64 C88,52 80,46 70,44 L65,48 L60,44 C50,46 42,52 38,64 Z" fill="url(#gg-hair)"/>
+                  <path d="M38,62 Q37,74 41,82 L44,66 Z" fill="#241711"/>
+                  <path d="M92,62 Q93,74 89,82 L86,66 Z" fill="#241711"/>
+                  <path d="M46,44 Q55,36 62,36" stroke="rgba(255,255,255,0.22)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  <!-- 배씨댕기 -->
+                  <path d="M60,32 Q65,28 70,32 L68,40 Q65,38 62,40 Z" fill="#d62839"/>
+                  <ellipse cx="65" cy="33" rx="3" ry="2" fill="#ffd166"/>
+                  <!-- 꽃 머리핀 -->
+                  <circle cx="86" cy="46" r="3.2" fill="#ff8fb1"/>
+                  <circle cx="86" cy="46" r="1.3" fill="#ffd166"/>
+
+                  <!-- 눈썹 -->
+                  <path d="M51,54 Q55,52 59,54" stroke="#3a2a22" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.5"/>
+                  <path d="M71,54 Q75,52 79,54" stroke="#3a2a22" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.5"/>
+                  <!-- 속눈썹 있는 큰 눈 -->
+                  <ellipse cx="55" cy="64" rx="4.2" ry="5.1" fill="url(#gg-eye)"/>
+                  <ellipse cx="75" cy="64" rx="4.2" ry="5.1" fill="url(#gg-eye)"/>
+                  <path d="M50.3,61.5 Q55,57.6 59.7,61.5" stroke="#1a0f0a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                  <path d="M70.3,61.5 Q75,57.6 79.7,61.5" stroke="#1a0f0a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                  <path d="M50.6,61.2 L48.2,59.6" stroke="#1a0f0a" stroke-width="1.2" stroke-linecap="round"/>
+                  <path d="M79.4,61.2 L81.8,59.6" stroke="#1a0f0a" stroke-width="1.2" stroke-linecap="round"/>
+                  <circle cx="53.6" cy="62" r="1.7" fill="#ffffff"/>
+                  <circle cx="56.5" cy="66.5" r="0.8" fill="#ffffff"/>
+                  <circle cx="73.6" cy="62" r="1.7" fill="#ffffff"/>
+                  <circle cx="76.5" cy="66.5" r="0.8" fill="#ffffff"/>
+                  <!-- 볼터치 -->
+                  <ellipse cx="47" cy="72" rx="7" ry="4.5" fill="url(#gg-blush)"/>
+                  <ellipse cx="83" cy="72" rx="7" ry="4.5" fill="url(#gg-blush)"/>
+                  <!-- 코 & 입 -->
+                  <path d="M63.6,70 Q65,71.3 66.4,70" stroke="#e0a080" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+                  <path d="M61,75 Q65,79.5 69,75 Q65,76.6 61,75 Z" fill="#c2415a"/>
                 </svg>
                 <div class="character-shadow"></div>
               </div>
@@ -481,97 +657,213 @@
               <!-- 달빛 은은한 후광 오라 -->
               <ellipse cx="248" cy="88" rx="85" ry="55" fill="url(#kidsMoonlightGlow)"/>
 
-              <!-- [남아: 도령] 왼쪽에서 달(우상단)을 올려다보는 모습 -->
+              <defs>
+                <radialGradient id="mk-skin" cx="45%" cy="40%" r="65%">
+                  <stop offset="0%" stop-color="#fff3e8"/>
+                  <stop offset="70%" stop-color="#ffdcc4"/>
+                  <stop offset="100%" stop-color="#f3bf9c"/>
+                </radialGradient>
+                <radialGradient id="mk-blush">
+                  <stop offset="0%" stop-color="#ff8fa3" stop-opacity="0.85"/>
+                  <stop offset="100%" stop-color="#ff8fa3" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="mk-eye" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#1a0f0a"/>
+                  <stop offset="100%" stop-color="#6b4430"/>
+                </linearGradient>
+                <linearGradient id="mk-hat" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#3b4058"/>
+                  <stop offset="55%" stop-color="#1c1f2e"/>
+                  <stop offset="100%" stop-color="#0e1018"/>
+                </linearGradient>
+                <linearGradient id="mk-hair" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#3a2820"/>
+                  <stop offset="100%" stop-color="#1c120d"/>
+                </linearGradient>
+                <linearGradient id="mk-vest" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#172f73"/>
+                  <stop offset="50%" stop-color="#2b55bd"/>
+                  <stop offset="100%" stop-color="#172f73"/>
+                </linearGradient>
+                <linearGradient id="mk-chima" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#d91e45"/>
+                  <stop offset="45%" stop-color="#ff5d78"/>
+                  <stop offset="100%" stop-color="#c8183d"/>
+                </linearGradient>
+                <linearGradient id="mk-jeo" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#ffe680"/>
+                  <stop offset="100%" stop-color="#f5c330"/>
+                </linearGradient>
+                <clipPath id="mk-boy-sleeve-l"><path d="M198,63 C188,68 184,82 186,98 Q194,104 204,102 L206,94 Q200,84 202,68 Z"/></clipPath>
+                <clipPath id="mk-boy-sleeve-r"><path d="M226,66 C232,58 238,46 242,38 L251,42 C249,52 243,64 236,74 Z"/></clipPath>
+                <clipPath id="mk-girl-sleeve-l"><path d="M266,65 C258,70 256,82 262,90 Q272,90 280,82 L278,76 Q270,76 268,68 Z"/></clipPath>
+                <clipPath id="mk-girl-sleeve-r"><path d="M298,65 C306,70 308,82 302,90 Q292,90 284,82 L286,76 Q294,76 296,68 Z"/></clipPath>
+              </defs>
+
+              <!-- [남아: 도령] 보름달을 손가락으로 가리키며 신기한 듯 올려다보는 모습 -->
               <g class="seated-boy">
-                <!-- 하체: 마루에 걸터앉은 다리와 하얀 버선발 -->
-                <path d="M188,106 L188,131 L200,131 L202,106 Z" fill="#f1f5f9"/>
-                <path d="M204,106 L204,133 L216,133 L214,106 Z" fill="#f8fafc"/>
-                <!-- 버선 곡선 -->
-                <path d="M187,131 Q186,139 195,138 Q201,137 200,131 Z" fill="#ffffff"/>
-                <path d="M203,133 Q202,141 211,140 Q217,139 216,133 Z" fill="#ffffff"/>
+                <!-- 복건 끈 (머리 뒤) -->
+                <g transform="translate(214,44) rotate(-6) scale(0.66)">
+                  <path d="M-21,-14 C-29,6 -31,28 -35,48 L-27,50 C-23,30 -19,8 -15,-10 Z" fill="#1c1f2e"/>
+                </g>
 
-                <!-- 몸통: 청색 쾌자/두루마기 & 하늘색 소매 (3/4 뒷모습) -->
-                <path d="M182,72 Q202,68 222,72 L225,112 Q202,115 180,112 Z" fill="#1e3a8a"/>
-                <line x1="202" y1="70" x2="202" y2="114" stroke="#0f172a" stroke-width="1.8"/>
-                <rect x="181" y="88" width="43" height="5" fill="#0284c7"/><!-- 허리띠 -->
-                <!-- 흰 동정 (목깃) -->
-                <polygon points="212,56 222,65 215,67" fill="#ffffff"/>
+                <!-- 마루 끝에 걸터앉아 늘어뜨린 다리 & 버선발 -->
+                <path d="M195,116 L209,116 L208,142 L196,142 Z" fill="#f4efe4"/>
+                <path d="M219,116 L233,116 L232,142 L220,142 Z" fill="#ebe4d6"/>
+                <rect x="196" y="137" width="12" height="3" rx="1" fill="#9aa7c7"/>
+                <rect x="220" y="137" width="12" height="3" rx="1" fill="#9aa7c7"/>
+                <path d="M196,141 L208,141 Q211,148 206,151 Q198,152 196,147 Z" fill="#ffffff" stroke="#e5e0d6" stroke-width="0.6"/>
+                <path d="M220,141 L232,141 Q235,148 230,151 Q222,152 220,147 Z" fill="#ffffff" stroke="#e5e0d6" stroke-width="0.6"/>
+                <!-- 무릎 (바지) -->
+                <path d="M190,102 Q214,98 238,102 L240,120 Q214,125 188,120 Z" fill="#ece6d8"/>
 
-                <!-- 왼팔: 툇마루 바닥을 짚은 손 -->
-                <path d="M182,72 Q172,86 176,101 Q183,102 186,95 Z" fill="#38bdf8"/>
-                <ellipse cx="176" cy="102" rx="5" ry="3.5" fill="#fde68a"/>
+                <!-- 쾌자 & 옥색 저고리 -->
+                <path d="M197,62 Q214,58 231,62 L239,110 Q214,115 189,110 Z" fill="url(#mk-vest)" stroke="#132a66" stroke-width="0.8"/>
+                <path d="M210,62 L218,62 L217,96 L211,96 Z" fill="#bfe6cf"/>
+                <path d="M207,61 L214,72 L221,61" stroke="#3b2a7a" stroke-width="4.5" fill="none" stroke-linejoin="round"/>
+                <path d="M208,60 L214,69 L220,60" stroke="#ffffff" stroke-width="1.8" fill="none" stroke-linejoin="round"/>
+                <path d="M190,94 Q214,99 238,94 L238,99 Q214,104 190,99 Z" fill="#d8343f"/>
 
-                <!-- 오른팔: 무릎 위 편안하게 얹은 손 -->
-                <path d="M222,72 Q233,85 228,98 Q222,98 219,90 Z" fill="#38bdf8"/>
-                <ellipse cx="228" cy="98" rx="4.5" ry="3.5" fill="#fde68a"/>
+                <!-- 왼팔: 무릎 위에 얹은 색동 소매 -->
+                <g clip-path="url(#mk-boy-sleeve-l)">
+                  <rect x="180" y="60" width="30" height="46" fill="#fbf6ec"/>
+                  <rect x="180" y="66" width="30" height="5" fill="#e5484d"/>
+                  <rect x="180" y="71" width="30" height="5" fill="#f7c948"/>
+                  <rect x="180" y="76" width="30" height="5" fill="#3fae6a"/>
+                  <rect x="180" y="81" width="30" height="5" fill="#f38bb3"/>
+                  <rect x="180" y="86" width="30" height="5" fill="#4f7fd9"/>
+                  <rect x="180" y="91" width="30" height="5" fill="#e5484d"/>
+                  <rect x="180" y="96" width="30" height="10" fill="#3b2a7a"/>
+                </g>
+                <ellipse cx="204" cy="103" rx="4.5" ry="3.8" fill="url(#mk-skin)"/>
 
-                <!-- 머리: 고개를 들어 보름달을 올려다봄 -->
-                <ellipse cx="210" cy="51" rx="14" ry="15" fill="#fef3c7"/>
-                <ellipse cx="219" cy="54" rx="3.5" ry="2.2" fill="#fda4af" opacity="0.85"/><!-- 볼터치 -->
-                <!-- 달을 보며 웃는 눈 (^ 모양) -->
-                <path d="M217,48 Q221,44 225,48" stroke="#1e293b" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-                <!-- 다정한 미소 -->
-                <path d="M219,56 Q222,58 225,56" stroke="#e11d48" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <!-- 오른팔: 보름달을 가리키는 색동 소매 & 손가락 -->
+                <g clip-path="url(#mk-boy-sleeve-r)">
+                  <rect x="220" y="30" width="40" height="50" fill="#fbf6ec"/>
+                  <g transform="translate(234,74) rotate(-69)">
+                    <rect x="4" y="-15" width="5" height="30" fill="#e5484d"/>
+                    <rect x="9" y="-15" width="5" height="30" fill="#f7c948"/>
+                    <rect x="14" y="-15" width="5" height="30" fill="#3fae6a"/>
+                    <rect x="19" y="-15" width="5" height="30" fill="#f38bb3"/>
+                    <rect x="24" y="-15" width="5" height="30" fill="#4f7fd9"/>
+                  </g>
+                </g>
+                <path d="M244.5,34 L245.5,25 Q247.3,23.2 249,25 L248.6,34 Z" fill="#ffdcc4"/>
+                <ellipse cx="246.8" cy="37" rx="4.4" ry="4" fill="url(#mk-skin)"/>
 
-                <!-- 전통 복건 (검은 모자 & 뒤로 늘어진 댕기) -->
-                <path d="M196,41 C194,23 206,16 216,16 C226,16 228,26 224,41 C218,37 202,37 196,41 Z" fill="#0f172a"/>
-                <!-- 복건 뒤로 길게 휘날리는 댕기 리본 -->
-                <path d="M197,41 Q191,65 187,88" stroke="#0f172a" stroke-width="5" stroke-linecap="round"/>
-                <path d="M200,44 Q195,68 192,92" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
-                <!-- 금박 장식 선 & 상투 구슬 -->
-                <path d="M200,37 Q213,32 224,37" stroke="#facc15" stroke-width="2" fill="none"/>
-                <circle cx="215" cy="18" r="2.5" fill="#ef4444"/>
+                <!-- 머리: 달을 올려다보며 "우와~" -->
+                <g transform="translate(214,44) rotate(-6) scale(0.66)">
+                  <ellipse cx="-27" cy="2" rx="5.5" ry="7" fill="#ffdcc4"/>
+                  <ellipse cx="-26.5" cy="2" rx="2.5" ry="4" fill="#f0b08e"/>
+                  <ellipse cx="27" cy="2" rx="5.5" ry="7" fill="#ffdcc4"/>
+                  <ellipse cx="26.5" cy="2" rx="2.5" ry="4" fill="#f0b08e"/>
+                  <ellipse cx="0" cy="0" rx="27" ry="25" fill="url(#mk-skin)"/>
+                  <path d="M-27,-6 Q-25,6 -22,8 L-21,-8 Z" fill="#2a1c16"/>
+                  <path d="M27,-6 Q25,6 22,8 L21,-8 Z" fill="#2a1c16"/>
+                  <path d="M-30,-4 C-33,-28 -19,-40 0,-40 C19,-40 33,-28 30,-4 C25,-12 15,-16 0,-16 C-15,-16 -25,-12 -30,-4 Z" fill="url(#mk-hat)"/>
+                  <path d="M-13,-34 Q0,-44 13,-34 Q0,-38 -13,-34 Z" fill="#2c3044"/>
+                  <path d="M-21,-24 Q-10,-34 1,-34" stroke="rgba(255,255,255,0.2)" stroke-width="3" fill="none" stroke-linecap="round"/>
+                  <path d="M-15,-16 Q-10,-10 -5,-15 Q0,-9 5,-15 Q10,-10 15,-16 Z" fill="#2a1c16"/>
+                  <path d="M-17,-10 Q-12,-13.5 -7,-10.5" stroke="#3a2a22" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.55"/>
+                  <path d="M7,-10.5 Q12,-13.5 17,-10" stroke="#3a2a22" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.55"/>
+                  <ellipse cx="-11" cy="0" rx="4.4" ry="5.4" fill="url(#mk-eye)"/>
+                  <ellipse cx="11" cy="0" rx="4.4" ry="5.4" fill="url(#mk-eye)"/>
+                  <circle cx="-12.2" cy="-2.8" r="1.9" fill="#ffffff"/>
+                  <circle cx="9.8" cy="-2.8" r="1.9" fill="#ffffff"/>
+                  <circle cx="-9.4" cy="2.4" r="0.9" fill="#ffffff"/>
+                  <circle cx="12.6" cy="2.4" r="0.9" fill="#ffffff"/>
+                  <ellipse cx="-19" cy="9" rx="7" ry="4.5" fill="url(#mk-blush)"/>
+                  <ellipse cx="19" cy="9" rx="7" ry="4.5" fill="url(#mk-blush)"/>
+                  <path d="M-1.5,7 Q0,8.4 1.5,7" stroke="#e0a080" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                  <ellipse cx="0" cy="14" rx="3.4" ry="4" fill="#b83250"/>
+                  <ellipse cx="0" cy="16" rx="2.1" ry="1.5" fill="#ff7a8a"/>
+                </g>
               </g>
 
-              <!-- [여아: 아씨] 오른쪽에서 달(좌상단)을 올려다보는 모습 -->
+              <!-- [여아: 아씨] 두 손 모아 보름달에 소원을 비는 모습 -->
               <g class="seated-girl">
-                <!-- 하체: 마루 위에 곱게 펼쳐진 풍성한 다홍치마 -->
-                <path d="M254,84 C246,100 242,122 250,132 C263,135 293,135 310,132 C316,124 314,102 302,84 Z" fill="#e11d48"/>
-                <!-- 치마 주름과 광택 -->
-                <path d="M258,88 Q256,113 266,130" stroke="#f43f5e" stroke-width="4" fill="none" opacity="0.75"/>
-                <path d="M278,86 Q280,112 284,132" stroke="#f43f5e" stroke-width="4" fill="none" opacity="0.75"/>
-                <path d="M296,88 Q300,113 302,129" stroke="#f43f5e" stroke-width="4" fill="none" opacity="0.75"/>
-                <!-- 치마 밑으로 살짝 보이는 하얀 버선 앞코 -->
-                <ellipse cx="270" cy="132.5" rx="5" ry="3" fill="#ffffff"/>
-                <ellipse cx="284" cy="132.5" rx="5" ry="3" fill="#ffffff"/>
+                <!-- 뒷머리 -->
+                <g transform="translate(282,46) rotate(5) scale(0.66)">
+                  <ellipse cx="0" cy="-2" rx="29" ry="28" fill="url(#mk-hair)"/>
+                </g>
+                <!-- 땋은 댕기머리 & 붉은 댕기 -->
+                <ellipse cx="297" cy="62" rx="3.2" ry="4.2" fill="#2a1c16" stroke="#3d2a20" stroke-width="0.6"/>
+                <ellipse cx="298.5" cy="70" rx="3.2" ry="4.2" fill="#2a1c16" stroke="#3d2a20" stroke-width="0.6"/>
+                <ellipse cx="299.5" cy="78" rx="3" ry="4.2" fill="#2a1c16" stroke="#3d2a20" stroke-width="0.6"/>
+                <ellipse cx="300" cy="86" rx="2.8" ry="4" fill="#2a1c16" stroke="#3d2a20" stroke-width="0.6"/>
+                <ellipse cx="300" cy="93.5" rx="2.6" ry="3.6" fill="#2a1c16" stroke="#3d2a20" stroke-width="0.6"/>
+                <path d="M297,96 L303.5,96 L306,110 L300.5,106.5 L296,111 Z" fill="#d62839"/>
+                <circle cx="300.5" cy="101" r="1" fill="#ffd166"/>
 
-                <!-- 상체: 노란 저고리 & 색동 소매 -->
-                <path d="M260,67 L296,67 L300,87 L256,87 Z" fill="#fef08a"/>
-                <!-- 자주색 옷고름 -->
-                <path d="M274,77 Q271,94 268,107" stroke="#831843" stroke-width="2.6" stroke-linecap="round"/>
-                <path d="M276,77 Q278,91 280,101" stroke="#831843" stroke-width="2" stroke-linecap="round"/>
-                <!-- 흰 동정 (목깃) -->
-                <polygon points="270,57 262,67 269,69" fill="#ffffff"/>
+                <!-- 마루 끝까지 곱게 펼쳐진 다홍치마 -->
+                <path d="M264,78 Q282,74 300,78 C310,98 316,122 316,140 Q282,148 248,140 C248,122 254,98 264,78 Z" fill="url(#mk-chima)"/>
+                <path d="M268,84 Q260,112 256,141" stroke="#b8123a" stroke-width="1.1" fill="none" opacity="0.5"/>
+                <path d="M277,84 Q274,114 272,144" stroke="#b8123a" stroke-width="1.1" fill="none" opacity="0.5"/>
+                <path d="M287,84 Q290,114 292,144" stroke="#b8123a" stroke-width="1.1" fill="none" opacity="0.5"/>
+                <path d="M296,84 Q304,112 308,141" stroke="#b8123a" stroke-width="1.1" fill="none" opacity="0.5"/>
+                <path d="M249,139.5 Q282,147.5 315,139.5" stroke="#ffd166" stroke-width="1.6" fill="none"/>
+                <!-- 치마 밑 버선 앞코 -->
+                <path d="M268,143 Q272,149 278,147 L277,143 Z" fill="#ffffff"/>
+                <path d="M288,143 Q292,149 298,147 L297,143 Z" fill="#ffffff"/>
 
-                <!-- 왼팔: 색동 줄무늬 소매 & 손 -->
-                <path d="M260,67 Q248,79 254,93 Q260,91 263,83 Z" fill="#f472b6"/>
-                <path d="M256,73 Q250,81 256,88" stroke="#fde047" stroke-width="2" fill="none"/>
-                <path d="M255,77 Q251,83 257,85" stroke="#34d399" stroke-width="2" fill="none"/>
-                <ellipse cx="256" cy="93" rx="4" ry="3" fill="#fde68a"/>
+                <!-- 노랑 저고리 & 자주 깃 & 옷고름 -->
+                <path d="M265,64 Q282,60 299,64 L301,82 Q282,86 263,82 Z" fill="url(#mk-jeo)"/>
+                <path d="M277,63 L282,72 L287,63" stroke="#7b2d8e" stroke-width="3.5" fill="none" stroke-linejoin="round"/>
+                <path d="M277.5,62 L282,69.5 L286.5,62" stroke="#ffffff" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
+                <path d="M275,78 Q273,90 271,102 L274,102 Q276,90 278,79 Z" fill="#c2185b"/>
+                <path d="M278,78 Q280,88 282,98 L285,97 Q282,87 280,78 Z" fill="#ad1457"/>
 
-                <!-- 오른팔: 색동 줄무늬 소매 & 손 -->
-                <path d="M296,67 Q308,79 303,93 Q296,91 293,83 Z" fill="#f472b6"/>
-                <path d="M300,73 Q306,81 300,88" stroke="#fde047" stroke-width="2" fill="none"/>
-                <path d="M301,77 Q305,83 299,85" stroke="#34d399" stroke-width="2" fill="none"/>
-                <ellipse cx="302" cy="93" rx="4" ry="3" fill="#fde68a"/>
+                <!-- 가슴 앞에 두 손 모은 색동 소매 -->
+                <g clip-path="url(#mk-girl-sleeve-l)">
+                  <rect x="252" y="62" width="32" height="32" fill="#fbf6ec"/>
+                  <rect x="252" y="66" width="32" height="4" fill="#e5484d"/>
+                  <rect x="252" y="70" width="32" height="4" fill="#f7c948"/>
+                  <rect x="252" y="74" width="32" height="4" fill="#3fae6a"/>
+                  <rect x="252" y="78" width="32" height="4" fill="#f38bb3"/>
+                  <rect x="252" y="82" width="32" height="4" fill="#4f7fd9"/>
+                  <rect x="252" y="86" width="32" height="8" fill="#a23b72"/>
+                </g>
+                <g clip-path="url(#mk-girl-sleeve-r)">
+                  <rect x="280" y="62" width="32" height="32" fill="#fbf6ec"/>
+                  <rect x="280" y="66" width="32" height="4" fill="#e5484d"/>
+                  <rect x="280" y="70" width="32" height="4" fill="#f7c948"/>
+                  <rect x="280" y="74" width="32" height="4" fill="#3fae6a"/>
+                  <rect x="280" y="78" width="32" height="4" fill="#f38bb3"/>
+                  <rect x="280" y="82" width="32" height="4" fill="#4f7fd9"/>
+                  <rect x="280" y="86" width="32" height="8" fill="#a23b72"/>
+                </g>
+                <ellipse cx="279.5" cy="80" rx="4" ry="4.4" fill="url(#mk-skin)"/>
+                <ellipse cx="284.5" cy="80" rx="4" ry="4.4" fill="url(#mk-skin)"/>
+                <path d="M282,76.5 L282,83.5" stroke="#e8a987" stroke-width="0.8" stroke-linecap="round"/>
 
-                <!-- 머리: 고개를 들어 달을 올려다보는 다정한 표정 -->
-                <ellipse cx="278" cy="49" rx="13.5" ry="14.5" fill="#fef3c7"/>
-                <ellipse cx="270" cy="52" rx="3.5" ry="2.2" fill="#fda4af" opacity="0.85"/><!-- 볼터치 -->
-                <!-- 눈 (^ 모양) -->
-                <path d="M266,46 Q270,42 273,46" stroke="#1e293b" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-                <!-- 입술 -->
-                <path d="M268,54 Q271,56 274,54" stroke="#e11d48" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-
-                <!-- 헤어: 땋은 댕기머리 & 붉은 댕기 리본 -->
-                <path d="M266,47 C264,31 272,25 281,25 C290,25 296,31 294,47 C288,39 272,39 266,47 Z" fill="#1e1b4b"/>
-                <path d="M290,45 Q296,74 294,104" stroke="#1e1b4b" stroke-width="6.5" stroke-linecap="round"/>
-                <!-- 붉은 댕기 -->
-                <polygon points="294,98 300,116 288,116" fill="#dc2626"/>
-                <circle cx="294" cy="110" r="1.5" fill="#facc15"/>
-                <!-- 머리 위 붉은 배씨댕기 장식 -->
-                <circle cx="279" cy="26" r="3.5" fill="#dc2626"/>
-                <circle cx="279" cy="26" r="1.8" fill="#facc15"/>
+                <!-- 머리: 달을 올려다보며 방긋 -->
+                <g transform="translate(282,46) rotate(5) scale(0.66)">
+                  <ellipse cx="0" cy="0" rx="25" ry="24" fill="url(#mk-skin)"/>
+                  <path d="M-27,2 C-29,-22 -17,-32 0,-32 C17,-32 29,-22 27,2 C23,-10 15,-16 5,-18 L0,-14 L-5,-18 C-15,-16 -23,-10 -27,2 Z" fill="url(#mk-hair)"/>
+                  <path d="M-27,0 Q-28,12 -24,20 L-21,4 Z" fill="#241711"/>
+                  <path d="M27,0 Q28,12 24,20 L21,4 Z" fill="#241711"/>
+                  <path d="M-19,-18 Q-10,-26 -3,-26" stroke="rgba(255,255,255,0.22)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  <path d="M-5,-30 Q0,-34 5,-30 L3,-22 Q0,-24 -3,-22 Z" fill="#d62839"/>
+                  <ellipse cx="0" cy="-29" rx="3" ry="2" fill="#ffd166"/>
+                  <circle cx="21" cy="-16" r="3.4" fill="#ff8fb1"/>
+                  <circle cx="21" cy="-16" r="1.4" fill="#ffd166"/>
+                  <path d="M-14,-8 Q-10,-11 -6,-8.5" stroke="#3a2a22" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+                  <path d="M6,-8.5 Q10,-11 14,-8" stroke="#3a2a22" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+                  <ellipse cx="-10" cy="1" rx="4.2" ry="5.1" fill="url(#mk-eye)"/>
+                  <ellipse cx="10" cy="1" rx="4.2" ry="5.1" fill="url(#mk-eye)"/>
+                  <path d="M-14.7,-1.5 Q-10,-5.4 -5.3,-1.5" stroke="#1a0f0a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                  <path d="M5.3,-1.5 Q10,-5.4 14.7,-1.5" stroke="#1a0f0a" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+                  <path d="M-14.4,-1.8 L-16.8,-3.4" stroke="#1a0f0a" stroke-width="1.2" stroke-linecap="round"/>
+                  <path d="M14.4,-1.8 L16.8,-3.4" stroke="#1a0f0a" stroke-width="1.2" stroke-linecap="round"/>
+                  <circle cx="-11.2" cy="-1.6" r="1.8" fill="#ffffff"/>
+                  <circle cx="8.8" cy="-1.6" r="1.8" fill="#ffffff"/>
+                  <circle cx="-8.5" cy="3.5" r="0.8" fill="#ffffff"/>
+                  <circle cx="11.5" cy="3.5" r="0.8" fill="#ffffff"/>
+                  <ellipse cx="-18" cy="10" rx="7" ry="4.5" fill="url(#mk-blush)"/>
+                  <ellipse cx="18" cy="10" rx="7" ry="4.5" fill="url(#mk-blush)"/>
+                  <path d="M-1.4,8 Q0,9.3 1.4,8" stroke="#e0a080" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+                  <path d="M-4,13 Q0,17.5 4,13 Q0,14.6 -4,13 Z" fill="#c2415a"/>
+                </g>
               </g>
             </g>
           </svg>
