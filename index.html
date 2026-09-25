@@ -4,6 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>풍성한 한가위 - 움직이는 추석 인사 카드</title>
+  <meta name="description" content="뭉치자 여러분! 한옥 문을 열면 보름달과 가야금 가락이 함께하는 추석 인사 카드가 펼쳐집니다.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌕</text></svg>">
+
+  <!-- 카카오톡·SNS 링크 공유 미리보기 (Open Graph) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="한가위 달빛 카드">
+  <meta property="og:title" content="🌕 풍요롭고 따뜻한 한가위">
+  <meta property="og:description" content="뭉치자 여러분! 한옥 문을 열면 보름달과 가야금 가락이 함께하는 추석 인사 카드가 펼쳐집니다.">
+  <meta property="og:url" content="https://ykyyyky55-cmd.github.io/chuseok-card/">
+  <meta property="og:image" content="https://ykyyyky55-cmd.github.io/chuseok-card/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="보름달 속 떡방아 찧는 달토끼와 툇마루에 앉은 한복 입은 남녀 어린이">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Myeongjo:wght@400;700;800&family=Song+Myung&display=swap" rel="stylesheet">
@@ -384,61 +398,129 @@
 
         <!-- 감나무 가지 장식 (상단 우측) -->
         <div class="persimmon-branch" id="persimmon-branch">
-          <svg viewBox="0 0 260 200" class="branch-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- 나뭇가지 -->
-            <path d="M260,20 Q200,30 160,70 T80,90 Q40,105 10,120" stroke="#4a3728" stroke-width="7" stroke-linecap="round"/>
-            <path d="M170,65 Q150,110 120,130" stroke="#4a3728" stroke-width="4.5" stroke-linecap="round"/>
-            <path d="M100,85 Q80,120 60,135" stroke="#4a3728" stroke-width="3.5" stroke-linecap="round"/>
-            <path d="M220,25 Q200,60 190,85" stroke="#4a3728" stroke-width="4" stroke-linecap="round"/>
-            
-            <!-- 나뭇잎들 -->
+          <svg viewBox="0 0 260 200" class="branch-svg" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="pb-bark" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#7a5638"/>
+                <stop offset="45%" stop-color="#553a26"/>
+                <stop offset="100%" stop-color="#2f1f14"/>
+              </linearGradient>
+              <radialGradient id="pb-fruit" cx="35%" cy="32%" r="72%">
+                <stop offset="0%" stop-color="#ffc26b"/>
+                <stop offset="45%" stop-color="#fb8a24"/>
+                <stop offset="80%" stop-color="#e2580f"/>
+                <stop offset="100%" stop-color="#a8360b"/>
+              </radialGradient>
+              <radialGradient id="pb-fruit-2" cx="35%" cy="32%" r="72%">
+                <stop offset="0%" stop-color="#ffb35c"/>
+                <stop offset="50%" stop-color="#f06a17"/>
+                <stop offset="85%" stop-color="#c9460c"/>
+                <stop offset="100%" stop-color="#8f2d09"/>
+              </radialGradient>
+              <!-- 감잎 (광택 있는 타원형 잎) -->
+              <symbol id="pb-leaf" viewBox="-2 -12 34 24" overflow="visible">
+                <path d="M0,0 C6,-9 20,-10 30,0 C20,10 6,9 0,0 Z"/>
+                <path d="M1,0 L28,0" stroke="rgba(0,0,0,0.28)" stroke-width="1.1" fill="none"/>
+                <path d="M9,0 L13,-5 M15,0 L19,-5 M21,0 L24,-4 M9,0 L13,5 M15,0 L19,5 M21,0 L24,4" stroke="rgba(0,0,0,0.18)" stroke-width="0.8" fill="none"/>
+                <path d="M5,-2.5 C10,-7 18,-7.5 24,-4" stroke="rgba(255,255,255,0.35)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+              </symbol>
+              <!-- 감꼭지 꽃받침 잎 -->
+              <path id="pb-sepal" d="M0,0 C-3,-4 -10,-4 -13,0 C-10,3 -4,3 0,0 Z"/>
+            </defs>
+
+            <!-- 가는 곁가지 -->
+            <path d="M142,80 Q128,98 120,125" stroke="#4a3221" stroke-width="3.2" stroke-linecap="round" fill="none"/>
+            <path d="M80,92 Q66,110 60,130" stroke="#4a3221" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+            <path d="M206,38 Q196,60 190,82" stroke="#4a3221" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <path d="M232,24 Q244,38 242,54" stroke="#4a3221" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+            <path d="M110,88 Q100,70 104,58" stroke="#4a3221" stroke-width="2" stroke-linecap="round" fill="none"/>
+
+            <!-- 굵기가 점점 가늘어지는 원가지 -->
+            <path d="M264,13 Q200,22 158,62 Q126,85 80,86 Q42,97 8,117 L10,121 Q44,103 82,93 Q128,94 163,72 Q204,36 264,29 Z" fill="url(#pb-bark)"/>
+            <path d="M262,15 Q200,24 159,63 Q127,86 81,87 Q44,98 10,117" stroke="#9a7452" stroke-width="1.2" fill="none" opacity="0.6"/>
+            <!-- 옹이 -->
+            <ellipse cx="186" cy="44" rx="3.5" ry="2" transform="rotate(-38 186 44)" fill="#2f1f14" opacity="0.7"/>
+            <ellipse cx="118" cy="88" rx="3" ry="1.6" transform="rotate(-10 118 88)" fill="#2f1f14" opacity="0.7"/>
+
+            <!-- 단풍 든 감잎들 -->
             <g class="leaf-group">
-              <path d="M150,60 C130,45 110,60 130,80 C150,90 160,75 150,60 Z" fill="#4d7c0f" opacity="0.85"/>
-              <path d="M110,80 C90,65 75,80 95,98 C115,105 120,95 110,80 Z" fill="#65a30d" opacity="0.85"/>
-              <path d="M70,95 C55,80 40,95 60,110 C75,115 80,105 70,95 Z" fill="#b45309" opacity="0.85"/>
-              <path d="M180,80 C165,70 155,85 170,100 C185,105 190,95 180,80 Z" fill="#84cc16" opacity="0.85"/>
-              <path d="M40,115 C25,105 15,120 35,130 C45,135 50,125 40,115 Z" fill="#d97706" opacity="0.85"/>
+              <use href="#pb-leaf" width="34" height="24" x="-2" y="-12" fill="#6e8f24" transform="translate(206,38) rotate(118) scale(1.05)"/>
+              <use href="#pb-leaf" width="34" height="24" x="-2" y="-12" fill="#e8b923" transform="translate(252,22) rotate(-70) scale(0.85)"/>
+              <use href="#pb-leaf" width="34" height="24" x="-2" y="-12" fill="#b95b1d" transform="translate(242,54) rotate(80) scale(0.8)"/>
+              <use href="#pb-leaf" width="34" height="24" x="-2" y="-12" fill="#d9531e" transform="translate(170,58) rotate(-70) scale(0.95)"/>
+              <use href="#pb-leaf" width="34" height="24" x="-2" y="-12" fill="#8aa83a" transform="translate(152,70) rotate(150) scale(1.1)"/>
+              <use href="#pb-leaf" width="34" height="24" x="-2" y="-12" fill="#a3b53a" transform="translate(136,84) rotate(40) scale(0.95)"/>
+              <use href="#pb-leaf" width="34" height="24" x="-2" y="-12" fill="#e0a526" transform="translate(104,58) rotate(-120) scale(0.85)"/>
+              <use href="#pb-leaf" width="34" height="24" x="-2" y="-12" fill="#d9531e" transform="translate(96,90) rotate(165) scale(1)"/>
+              <use href="#pb-leaf" width="34" height="24" x="-2" y="-12" fill="#c0392b" transform="translate(78,94) rotate(110) scale(0.85)"/>
+              <use href="#pb-leaf" width="34" height="24" x="-2" y="-12" fill="#e8b923" transform="translate(46,104) rotate(-160) scale(0.8)"/>
+              <use href="#pb-leaf" width="34" height="24" x="-2" y="-12" fill="#b3261e" transform="translate(24,112) rotate(150) scale(0.7)"/>
+            </g>
+
+            <!-- 까치밥 감을 노리는 귀여운 까치 -->
+            <g class="magpie">
+              <path d="M214,15 L193,4 L191,8 L212,19 Z" fill="#23315e"/>
+              <path d="M213,16 L196,11" stroke="#4a64b0" stroke-width="1" opacity="0.7"/>
+              <line x1="221" y1="19" x2="220" y2="24" stroke="#2b2b2b" stroke-width="1.2" stroke-linecap="round"/>
+              <line x1="226" y1="19" x2="226" y2="24" stroke="#2b2b2b" stroke-width="1.2" stroke-linecap="round"/>
+              <ellipse cx="222" cy="13.5" rx="10" ry="7" fill="#161925"/>
+              <ellipse cx="225" cy="16" rx="6" ry="3.8" fill="#f8fafc"/>
+              <path d="M214,11 Q220,8 226,12 Q220,15 214,11 Z" fill="#f1f5f9" opacity="0.9"/>
+              <path d="M213,12 Q219,10 224,13" stroke="#3b5bb5" stroke-width="1.2" fill="none" opacity="0.8"/>
+              <g class="magpie-head">
+                <circle cx="231.5" cy="7.5" r="5" fill="#161925"/>
+                <path d="M236,6.6 L241.5,8 L236,9.4 Z" fill="#2b2b2b"/>
+                <circle cx="233" cy="6.3" r="1.3" fill="#ffffff"/>
+                <circle cx="233.3" cy="6.3" r="0.7" fill="#0b0b0b"/>
+              </g>
             </g>
 
             <!-- 주황빛 탐스러운 감들 (바람에 살랑살랑) -->
             <!-- 감 1 -->
             <g class="persimmon persimmon-1">
-              <!-- 꼭지 -->
-              <path d="M117,125 Q120,132 120,135" stroke="#37261a" stroke-width="2.5"/>
-              <path d="M112,133 Q120,130 128,133 Q120,136 112,133 Z" fill="#3f5926"/>
-              <!-- 열매 -->
-              <ellipse cx="120" cy="147" rx="16" ry="14" fill="url(#persimmonGrad1)"/>
-              <ellipse cx="116" cy="144" rx="5" ry="3" fill="#ffedd5" opacity="0.45"/>
+              <path d="M120,125 Q121,130 120,134" stroke="#3b2616" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+              <ellipse cx="120" cy="148" rx="17" ry="15" fill="url(#pb-fruit)"/>
+              <path d="M117,135 Q113,148 118,162" stroke="rgba(154,52,18,0.35)" stroke-width="1.3" fill="none"/>
+              <g transform="translate(120,135) scale(1,0.55)" fill="#3f6212" stroke="#2c4a0c" stroke-width="0.6">
+                <use href="#pb-sepal"/>
+                <use href="#pb-sepal" transform="rotate(90)"/>
+                <use href="#pb-sepal" transform="rotate(180)"/>
+                <use href="#pb-sepal" transform="rotate(270)"/>
+              </g>
+              <circle cx="120" cy="135" r="2.2" fill="#4d3319"/>
+              <ellipse cx="113" cy="142" rx="5" ry="3" transform="rotate(-25 113 142)" fill="#ffffff" opacity="0.55"/>
+              <circle cx="110" cy="147" r="1.2" fill="#ffffff" opacity="0.6"/>
             </g>
 
             <!-- 감 2 -->
             <g class="persimmon persimmon-2">
-              <path d="M57,130 Q60,137 60,140" stroke="#37261a" stroke-width="2.5"/>
-              <path d="M52,138 Q60,135 68,138 Q60,141 52,138 Z" fill="#3f5926"/>
-              <ellipse cx="60" cy="151" rx="14" ry="12.5" fill="url(#persimmonGrad2)"/>
-              <ellipse cx="56" cy="148" rx="4" ry="2.5" fill="#ffedd5" opacity="0.45"/>
+              <path d="M60,130 Q61,135 60,139" stroke="#3b2616" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+              <ellipse cx="60" cy="152" rx="15" ry="13" fill="url(#pb-fruit-2)"/>
+              <path d="M57,140 Q53,152 58,164" stroke="rgba(154,52,18,0.35)" stroke-width="1.2" fill="none"/>
+              <g transform="translate(60,140) scale(0.9,0.5)" fill="#3f6212" stroke="#2c4a0c" stroke-width="0.6">
+                <use href="#pb-sepal"/>
+                <use href="#pb-sepal" transform="rotate(90)"/>
+                <use href="#pb-sepal" transform="rotate(180)"/>
+                <use href="#pb-sepal" transform="rotate(270)"/>
+              </g>
+              <circle cx="60" cy="140" r="2" fill="#4d3319"/>
+              <ellipse cx="54" cy="147" rx="4.3" ry="2.6" transform="rotate(-25 54 147)" fill="#ffffff" opacity="0.5"/>
             </g>
 
             <!-- 감 3 -->
             <g class="persimmon persimmon-3">
-              <path d="M188,82 Q190,88 190,91" stroke="#37261a" stroke-width="2.5"/>
-              <path d="M183,89 Q190,86 197,89 Q190,92 183,89 Z" fill="#3f5926"/>
-              <ellipse cx="190" cy="102" rx="13" ry="11.5" fill="url(#persimmonGrad1)"/>
-              <ellipse cx="187" cy="99" rx="4" ry="2.5" fill="#ffedd5" opacity="0.45"/>
+              <path d="M190,82 Q191,87 190,90" stroke="#3b2616" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+              <ellipse cx="190" cy="103" rx="14" ry="12.5" fill="url(#pb-fruit)"/>
+              <path d="M187,92 Q183,103 188,115" stroke="rgba(154,52,18,0.35)" stroke-width="1.2" fill="none"/>
+              <g transform="translate(190,91) scale(0.85,0.48)" fill="#3f6212" stroke="#2c4a0c" stroke-width="0.6">
+                <use href="#pb-sepal"/>
+                <use href="#pb-sepal" transform="rotate(90)"/>
+                <use href="#pb-sepal" transform="rotate(180)"/>
+                <use href="#pb-sepal" transform="rotate(270)"/>
+              </g>
+              <circle cx="190" cy="91" r="1.9" fill="#4d3319"/>
+              <ellipse cx="184.5" cy="98" rx="4" ry="2.4" transform="rotate(-25 184.5 98)" fill="#ffffff" opacity="0.55"/>
             </g>
-
-            <defs>
-              <radialGradient id="persimmonGrad1" cx="35%" cy="35%" r="70%">
-                <stop offset="0%" stop-color="#fb923c"/>
-                <stop offset="65%" stop-color="#ea580c"/>
-                <stop offset="100%" stop-color="#9a3412"/>
-              </radialGradient>
-              <radialGradient id="persimmonGrad2" cx="35%" cy="35%" r="70%">
-                <stop offset="0%" stop-color="#f97316"/>
-                <stop offset="70%" stop-color="#c2410c"/>
-                <stop offset="100%" stop-color="#7c2d12"/>
-              </radialGradient>
-            </defs>
           </svg>
         </div>
 
